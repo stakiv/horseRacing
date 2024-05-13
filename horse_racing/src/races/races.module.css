@@ -1,0 +1,24 @@
+.main {
+    margin-top: 2rem;
+}
+
+.filters {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 2em;
+    border: 2em;
+    background-color: #CCCBCB;
+    line-height: 3rem;
+    border-radius: 1em;
+}
+.items {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(1);
+}
+.date {
+    padding: 2px 7px;
+    border-radius: 7px;
+    border: solid black 1px;
+}

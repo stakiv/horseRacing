@@ -1,0 +1,14 @@
+.tabs {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    column-gap: 2em;
+}
+.option {
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+}
+.option:active {
+    background-color: blue;
+}
