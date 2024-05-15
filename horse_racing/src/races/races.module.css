@@ -20,7 +20,7 @@
     grid-template-columns: repeat(1);
 }
 .date {
-    padding: 2px 7px;
-    border-radius: 7px;
+    padding: 5px 10px;
+    border-radius: 10px;
     border: solid black 1px;
 }
