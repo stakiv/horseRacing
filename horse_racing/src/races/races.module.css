@@ -11,6 +11,8 @@
     background-color: #CCCBCB;
     line-height: 3rem;
     border-radius: 1em;
+    /*position: fixed;*/
+    
 }
 .items {
     margin-top: 1rem;

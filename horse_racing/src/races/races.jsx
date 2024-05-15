@@ -8,7 +8,7 @@ const jockeys = [
     "Рябова Елизавета", "Леонова Екатерина", "Рябова Екатерина", "Екатерина Рябова"
 ]
 
-const main = () => {
+const Main = () => {
     return (
 
         <main className={m.main}>
@@ -34,7 +34,10 @@ const main = () => {
                 </div>
             </div>
             <div className={m.items}>
-                <Race />
+                {[...Array(4)].map(x =>
+                    <Race num = {1}/>
+                )}
+
                 <Race />
                 <Race />
                 <Race />
@@ -43,4 +46,4 @@ const main = () => {
     )
 }
 
-export default main
+export default Main

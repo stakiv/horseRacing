@@ -8,7 +8,7 @@ const main = () => {
         <div className={m.main}>
             <Ippodrom />
             <Tabs />
-            <Races />
+            
         </div>
     )
 }

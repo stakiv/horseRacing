@@ -1,13 +1,48 @@
+import { useState } from 'react';
 import t from './tabs.module.css'
+import Races from '../races/races';
+import Horses from '../horses/horses';
+import Jockeys from '../jockeys/jockeys';
 
-const tabs = () => {
+const Tabs = () => {
+    const [activeTab, setActiveTab] = useState("races")
+    const handleRaces = () => {
+        setActiveTab("races");
+    };
+    const handleHorses = () => {
+        setActiveTab("horses");
+    };
+    const handleJockeys = () => {
+        setActiveTab("jockeys");
+    };
+    const styles = {
+        list: {
+            listStyle: "none",
+            marginLeft: "0",
+            paddingLeft: "0"
+        }
+
+    }
+
     return (
-        <div className={t.tabs}>
-            <input type="button" value="Заезды" className={t.option} />
-            <input type="button" value="Лошади"className={t.option}/>
-            <input type="button" value="Жокеи"className={t.option}/>
+        <div>
+            <ul className={t.tabs}>
+                <li className={activeTab === "races" ? "active" : ""}
+                    onClick={handleRaces}
+                    style={styles.list}>Заезды</li>
+                <li className={activeTab === "horses" ? "active" : ""}
+                    onClick={handleHorses}
+                    style={styles.list}>Лошади</li>
+                <li className={activeTab === "jockeys" ? "active" : ""}
+                    onClick={handleJockeys}
+                    style={styles.list}>Жокеи</li>
+            </ul>
+            <div className={t.outlet}>
+                {activeTab === "races" ? <Races /> : activeTab === "horses" ? <Horses /> : <Jockeys />}
+
+            </div>
         </div>
     )
 }
 
-export default tabs
+export default Tabs
