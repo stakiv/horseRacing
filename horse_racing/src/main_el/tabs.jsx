@@ -21,7 +21,6 @@ const Tabs = () => {
             marginLeft: "0",
             paddingLeft: "0"
         }
-
     }
 
     return (
@@ -29,13 +28,13 @@ const Tabs = () => {
             <ul className={t.tabs}>
                 <li className={activeTab === "races" ? "active" : ""}
                     onClick={handleRaces}
-                    style={styles.list}>Заезды</li>
+                    style={{listStyle: "none", cursor: 'pointer'}}>Заезды</li>
                 <li className={activeTab === "horses" ? "active" : ""}
                     onClick={handleHorses}
-                    style={styles.list}>Лошади</li>
+                    style={{listStyle: "none", cursor: 'pointer'}}>Лошади</li>
                 <li className={activeTab === "jockeys" ? "active" : ""}
                     onClick={handleJockeys}
-                    style={styles.list}>Жокеи</li>
+                    style={{listStyle: "none", cursor: 'pointer'}}>Жокеи</li>
             </ul>
             <div className={t.outlet}>
                 {activeTab === "races" ? <Races /> : activeTab === "horses" ? <Horses /> : <Jockeys />}
