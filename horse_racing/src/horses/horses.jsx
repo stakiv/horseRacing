@@ -30,6 +30,7 @@ const Main = () => {
                 </div>
             </div>
             <div className={j.items}>
+                <div>
                 <table className={j.item}>
 
                     <tr className={j.row}>
@@ -54,6 +55,7 @@ const Main = () => {
                         )}
                     
                 </table>
+                </div>
             </div>
             <div className={j.items}>
                 <table className={j.item}>

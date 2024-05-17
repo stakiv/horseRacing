@@ -3,12 +3,12 @@
 }
 
 .filters {
-    padding: 0 20px;
+    padding: 0 20px 10px;
     display: flex;
     flex-direction: row;
     column-gap: 2em;
     border: 2em;
-    background-color: #CCCBCB;
+    background-color: #B19580;
     line-height: 3rem;
     border-radius: 1em;
     /*position: fixed;*/
@@ -20,7 +20,7 @@
     grid-template-columns: repeat(1);
 }
 .date {
-    padding: 5px 10px;
+    padding: 7px 13px;
     border-radius: 10px;
-    border: solid black 1px;
+    border: solid #5C3D26 1px;
 }

@@ -5,10 +5,13 @@ import m from './main.module.css'
 
 const main = () => {
     return (
-        <div className={m.main}>
-            <Ippodrom />
-            <Tabs />
-            
+        <div className={m.all}>
+            <div className={m.main}>
+                <Ippodrom />
+                <Tabs />
+            </div>
+
+
         </div>
     )
 }
