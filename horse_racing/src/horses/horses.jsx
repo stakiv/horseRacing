@@ -30,7 +30,7 @@ const Main = () => {
                 </div>
             </div>
             <div className={j.items}>
-                <div>
+                <div className={j.marg}>
                 <table className={j.item}>
 
                     <tr className={j.row}>

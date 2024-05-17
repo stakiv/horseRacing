@@ -1,5 +1,6 @@
 .main {
     margin-top: 2rem;
+    
 }
 .sort {
     padding: 0 20px;
@@ -25,10 +26,17 @@
     justify-content: center;
     margin: auto;
 }
+.marge {
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+}
 .item {
     border: 2px #5C3D26 solid;
-    margin-top: 2rem;
     padding: 15px 20px;
+    text-align: center;
+    justify-content: center;
+    margin: 2rem auto 0;
     border-radius: 1.4em;
     background-color: #FFF;
 }
