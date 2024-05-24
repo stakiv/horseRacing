@@ -74,3 +74,11 @@ exports.find_races_jockey = app.get("", async(req, res) => {
         res.sendStatus(400);
     }
 });
+
+
+/* ВЫВОДИТ ДЛЯ КАЖДОЙ ГОНКИ МИНИМАЛЬНОЕ ВРЕМЯ
+SELECT races.race_id, MIN(time) AS "winner" FROM races
+            JOIN participants ON participants.race_id = races.race_id
+            JOIN horses ON participants.horse_id = horses.horse_id
+            JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+            GROUP BY races.race_id */
