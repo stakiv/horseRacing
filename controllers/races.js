@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 /*заданная дата*/
-exports.find_races = app.get("", async(req, res) => {
+exports.find_races_date = app.get("", async(req, res) => {
     try {
         const date = req.query.date;
         const Race = await pool.query(
@@ -38,7 +38,7 @@ exports.find_races = app.get("", async(req, res) => {
 });
 
 /*заданная лошадь*/
-exports.find_races = app.get("", async(req, res) => {
+exports.find_races_horse = app.get("", async(req, res) => {
     try {
         const horse = req.query.horse;
         const Race = await pool.query(
@@ -57,7 +57,7 @@ exports.find_races = app.get("", async(req, res) => {
 });
 
 /*заданный жокей*/
-exports.find_races = app.get("", async(req, res) => {
+exports.find_races_jockey = app.get("", async(req, res) => {
     try {
         const jockey = req.query.horse;
         const Race = await pool.query(
