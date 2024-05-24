@@ -5,4 +5,4 @@ const jockeyRouter = express.Router();
 
 jockeyRouter.use("/races", jockeyController.find_jockeys);
 
-module.exports = raceRouter;
+module.exports = jockeyRouter;
