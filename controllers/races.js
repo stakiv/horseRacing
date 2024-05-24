@@ -15,13 +15,58 @@ app.use((req, res, next) => {
     res.header('Access-control-Allow-Origin', '*');
     res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-control-Allow-Headers', 'Content-Type, Authorization');
+    next()
 });
 
+/*заданная дата*/
 exports.find_races = app.get("", async(req, res) => {
     try {
         const date = req.query.date;
         const Race = await pool.query(
-            ''
+            `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
+            JOIN participants ON participants.race_id = races.race_id
+            JOIN horses ON participants.horse_id = horses.horse_id
+            JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+            WHERE races.date = '${date}'
+            GROUP BY races.race_id, name, horse_name, jockey_name, time`
+        )
+        res.json(Race["rows"])
+    }
+    catch (err) {
+        res.sendStatus(400);
+    }
+});
+
+/*заданная лошадь*/
+exports.find_races = app.get("", async(req, res) => {
+    try {
+        const horse = req.query.horse;
+        const Race = await pool.query(
+            `SELECT date, races.name, jockey_name, time FROM horses
+            JOIN participants ON horses.horse_id = participants.horse_id
+            JOIN jockeys ON jockeys.jockey_id = participants.jockey_id
+            JOIN races ON participants.race_id = races.race_id
+            WHERE horse_name = '${horse}'
+            ORDER BY date DESC`
+        )
+        res.json(Race["rows"])
+    }
+    catch (err) {
+        res.sendStatus(400);
+    }
+});
+
+/*заданный жокей*/
+exports.find_races = app.get("", async(req, res) => {
+    try {
+        const jockey = req.query.horse;
+        const Race = await pool.query(
+            `SELECT date, races.name, horse_name, time FROM jockeys
+            JOIN participants ON jockeys.jockey_id = participants.jockey_id
+            JOIN horses ON horses.horse_id = participants.horse_id
+            JOIN races ON participants.race_id = races.race_id
+            WHERE jockey_name = '${jockey}'
+            ORDER BY date DESC`
         )
         res.json(Race["rows"])
     }
