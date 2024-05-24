@@ -21,10 +21,15 @@ app.use((req, res, next) => {
 
 exports.find_jockeys = app.get("", async(req, res) => {
     try {
-        const Horse = await pool.query(
-            `SELECT jockey_id, jockey_name, jockey_age FROM jockeys`
+        const Jockey = await pool.query(
+            `SELECT "winners".jockey_id, jockey_name, jockey_age, "wins" FROM (
+                SELECT jockey_id, COUNT(*) AS "wins" FROM winners
+                JOIN participants ON winners.participant_id = participants.participant_id
+                GROUP BY jockey_id
+                ) AS "winners"
+                JOIN jockeys ON jockeys.jockey_id = "winners".jockey_id`
         )
-        res.json(Horse["rows"])
+        res.json(Jockey["rows"])
     }
     catch (err) {
         res.sendStatus(400);
