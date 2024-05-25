@@ -39,7 +39,7 @@ const Main = () => {
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
-                    <input type='button' value={"Количество побед"}  className={j.date} onClick={handlerClick}/>
+                    <input type='button' value={"Количество побед"}  className={j.date} onClick={handleClick}/>
                 </div>
             </div>
             <div className={j.items}>
