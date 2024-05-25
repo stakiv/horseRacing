@@ -1,0 +1,30 @@
+.tabs {
+    width: fit-content;
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: row;
+    
+    padding: 0;
+    border: 2px #5C3D26 solid;
+    border-radius: 10px;
+    /*position: fixed;*/
+}
+.option {
+    cursor: pointer;
+    border: none;
+    font-size: 1rem;
+    font-size: 1.2em;
+    font-weight: 600;
+    padding: 10px 17px;
+    border-radius: 8px;
+}
+
+.option:hover {
+    background-color: #C9B5A6;
+}
+.active {
+    background-color: #B19580;
+}
+.outlet {
+    margin: auto;
+}
