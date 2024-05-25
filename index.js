@@ -20,7 +20,7 @@ app.use("/api", raceRouter);
 
 (async() => {
     try {
-        app.listen(5432);
+        app.listen(1337);
         console.log("Сервер ждет подключения");
     } catch(err) {
         return console.log(err);

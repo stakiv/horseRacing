@@ -18,6 +18,23 @@ app.use((req, res, next) => {
     next()
 });
 
+exports.find_races = app.get("", async(req, res) => {
+    try {
+        const Race = await pool.query(
+            `SELECT date, races.race_id, name, horse_name, jockey_name, time FROM races
+            JOIN participants ON participants.race_id = races.race_id
+            JOIN horses ON participants.horse_id = horses.horse_id
+            JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+            ORDER BY date DESC`
+        )
+        res.json(Race["rows"])
+    }
+    catch (err) {
+        console.error(err)
+        res.status(400).json({message: ""});
+    }
+});
+
 /*заданная дата*/
 exports.find_races_date = app.get("", async(req, res) => {
     try {
@@ -33,6 +50,7 @@ exports.find_races_date = app.get("", async(req, res) => {
         res.json(Race["rows"])
     }
     catch (err) {
+        console.error(err)
         res.status(400).json({message: ""});
     }
 });
