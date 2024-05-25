@@ -22,12 +22,13 @@ const jockeys = [
 ]
 
 const Main = () => {
+
     return (
         <main className={j.main}>
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
-                    <input type='button' value={"Количество побед"}  className={j.date}/>
+                    <input type='button' value={"Количество побед"}  className={j.date} onClick={handlerClick}/>
                 </div>
             </div>
             <div className={j.items}>
