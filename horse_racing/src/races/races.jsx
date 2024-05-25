@@ -1,5 +1,6 @@
 import m from './races.module.css'
 import Race from './race_item'
+import { useEffect, useState } from 'react'
 
 const horses = [
     "Star", "Moon", "Nana", "Winner"
@@ -9,6 +10,13 @@ const jockeys = [
 ]
 
 const Main = () => {
+    const [races, setRaces] = useState([]);
+    useEffect(() => {
+        fetch('http://localhost:1337/api/races').then((res) => res.json()).then((res) => { setRaces(res) })
+    }, []);
+    useEffect(() => {
+        fetch('http://localhost:1337/api/races?horse=id').then((res) => res.json()).then((res) => { setRaces(res) })
+    }, []);
     return (
 
         <main className={m.main}>
@@ -34,8 +42,8 @@ const Main = () => {
                 </div>
             </div>
             <div className={m.items}>
-                {[...Array(4)].map(x =>
-                    <Race num = {1}/>
+                {races.map(x =>
+                    <Race num={1} />
                 )}
 
                 <Race />

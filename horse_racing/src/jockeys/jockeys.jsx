@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import j from './jockeys.module.css'
 /*
 const jockeys = [
@@ -23,7 +23,7 @@ const jockeys = [
 ]*/
 
 const Main = () => {
-    
+
     const [jockeys, setJockeys] = useState([]);
     /*
     /jockeys
@@ -34,26 +34,28 @@ const Main = () => {
         "age": "25",
         "num_wins": "2"
     }]*/
-    findJockeys(() => {
-        fetch('http://localhost:1337/api/jockeys').then((res) => res.json()).then((res) => {setJockeys(res)})}, []);
-    return (
-        <main className={j.main}>
-            <div className={j.sort}>
-                Сортировать по
-                <div className={j.option}>
-                    <input type='button' value={"Количество побед"}  className={j.date} onClick={handleClick}/>
+    useEffect(() => {
+        fetch('http://localhost:1337/api/jockeys').then((res) => res.json()).then((res) => { setJockeys(res) })
+    }, []);
+    
+        return (
+            <main className={j.main}>
+                <div className={j.sort}>
+                    Сортировать по
+                    <div className={j.option}>
+                        <input type='button' value={"Количество побед"} className={j.date} />
+                    </div>
                 </div>
-            </div>
-            <div className={j.items}>
-                <table className={j.item}>
+                <div className={j.items}>
+                    <table className={j.item}>
 
-                    <tr className={j.row}>
-                        <th className={j.data}>ID</th>
-                        <th className={j.data}>ФИО</th>
-                        <th className={j.data}>Возраст</th>
-                        <th className={j.data}>Кол-во побед</th>
-                    </tr>
-                    
+                        <tr className={j.row}>
+                            <th className={j.data}>ID</th>
+                            <th className={j.data}>ФИО</th>
+                            <th className={j.data}>Возраст</th>
+                            <th className={j.data}>Кол-во побед</th>
+                        </tr>
+
                         {jockeys.map(i =>
                             <tr className={j.row}>
                                 <td className={j.data}>{i.id}</td>
@@ -63,12 +65,12 @@ const Main = () => {
                             </tr>
 
                         )}
-                    
-                </table>
-            </div>
 
-        </main>
-    )
-}
+                    </table>
+                </div>
+
+            </main>
+        )
+    }
 
 export default Main
