@@ -5,7 +5,7 @@ const raceRouter = require("./routers/racesRouters");
 
 const app = express();
 app.use(express.json());
-app.use(express.static('./public'));
+/*app.use(express.static('./public'));*/
 
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -14,13 +14,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("./api", horseRouter);
-app.use("./api", jockeyRouter);
-app.use("./api", raceRouter);
+app.use("/api", horseRouter);
+app.use("/api", jockeyRouter);
+app.use("/api", raceRouter);
 
 (async() => {
     try {
-        app.listen(1337);
+        app.listen(5432);
         console.log("Сервер ждет подключения");
     } catch(err) {
         return console.log(err);

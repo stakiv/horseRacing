@@ -6,7 +6,7 @@ const pool = new Pool({
     password: 'mirandolina',
     host: 'localhost',
     port: 5432,
-    database: 'horseRacing'
+    database: 'horse_racing'
 });
 
 const app = express();
