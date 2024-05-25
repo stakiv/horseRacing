@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import j from './jockeys.module.css'
-
+/*
 const jockeys = [
     {
         id: 0,
@@ -19,9 +20,10 @@ const jockeys = [
         age: 3,
         wins: 8,
     }
-]
+]*/
 
 const Main = () => {
+    const [jockeys, setJockeys] = useState([]);
     /*
     /jockeys
     /jockeys?sortProperty=wins
@@ -31,8 +33,15 @@ const Main = () => {
         "age": "25",
         "num_wins": "2"
     }]*/
-    function handleClick() {
-        
+    const handleClick = async (event) => {
+        event.preventDefault();
+        const res = await fetch('http://localhost:1337/api/jockeys', {
+            method: "GET",
+            headers: {
+                "Accept": "application/json", "Content-Type": "application/json"
+            };
+            body: JSON.stringify({})
+        })
     }
     return (
         <main className={j.main}>
