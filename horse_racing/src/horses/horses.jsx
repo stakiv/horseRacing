@@ -21,9 +21,9 @@ const horses = [
 ]*/
 
 const Main = () => {
-    const [jockeys, setJockeys] = useState([]);
-    findJockeys(() => {
-        fetch('http://localhost:1337/api/horses').then((res) => res.json()).then((res) => {setJockeys(res)})}, []);
+    const [horses, setHorses] = useState([]);
+    findHorses(() => {
+        fetch('http://localhost:1337/api/horses').then((res) => res.json()).then((res) => {setHorses(res)})}, []);
     return (
         <main className={j.main}>
             <div className={j.sort}>
