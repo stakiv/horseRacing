@@ -48,6 +48,7 @@ exports.find_races_date = app.get("", async(req, res) => {
             GROUP BY races.race_id, name, horse_name, jockey_name, time`
         )
         res.json(Race["rows"])
+        
     }
     catch (err) {
         console.error(err)
