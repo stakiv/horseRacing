@@ -27,7 +27,45 @@ exports.find_jockeys = app.get("", async(req, res) => {
                 JOIN participants ON winners.participant_id = participants.participant_id
                 GROUP BY jockey_id
                 ) AS "winners"
-                JOIN jockeys ON jockeys.jockey_id = "winners".jockey_id`
+                JOIN jockeys ON jockeys.jockey_id = "winners".jockey_id
+				ORDER BY jockey_name ASC`
+        )
+        res.json(Jockey["rows"])
+    }
+    catch (err) {
+        res.status(400).json({message: ""});
+    }
+});
+exports.find_jockeys_filter = app.get("", async(req, res) => {
+    try {
+        const filter = req.query.filt;
+        const Jockey = await pool.query(
+            `SELECT "winners".jockey_id, jockey_name, jockey_age, "wins" FROM (
+                SELECT jockey_id, COUNT(*) AS "wins" FROM winners
+                JOIN participants ON winners.participant_id = participants.participant_id
+                GROUP BY jockey_id
+                ) AS "winners"
+                JOIN jockeys ON jockeys.jockey_id = "winners".jockey_id
+				WHERE jockey_name = '${filter}'`
+        )
+        res.json(Jockey["rows"])
+    }
+    catch (err) {
+        res.status(400).json({message: ""});
+    }
+});
+
+exports.find_jockeys_sort = app.get("", async(req, res) => {
+    try {
+        const sort = req.query.date;
+        const Jockey = await pool.query(
+            `SELECT "winners".jockey_id, jockey_name, jockey_age, "wins" FROM (
+                SELECT jockey_id, COUNT(*) AS "wins" FROM winners
+                JOIN participants ON winners.participant_id = participants.participant_id
+                GROUP BY jockey_id
+                ) AS "winners"
+                JOIN jockeys ON jockeys.jockey_id = "winners".jockey_id
+				ORDER BY "wins" ${sort}`
         )
         res.json(Jockey["rows"])
     }
