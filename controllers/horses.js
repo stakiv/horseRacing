@@ -33,7 +33,7 @@ exports.find_horses = app.get("", async(req, res) => {
         res.json(Horse["rows"])
     }
     catch (err) {
-        res.sendStatus(400);
+        res.status(400).json({message: ""});
     }
 });
 

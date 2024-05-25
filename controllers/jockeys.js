@@ -32,6 +32,6 @@ exports.find_jockeys = app.get("", async(req, res) => {
         res.json(Jockey["rows"])
     }
     catch (err) {
-        res.sendStatus(400);
+        res.status(400).json({message: ""});
     }
 });

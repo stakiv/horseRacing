@@ -33,7 +33,7 @@ exports.find_races_date = app.get("", async(req, res) => {
         res.json(Race["rows"])
     }
     catch (err) {
-        res.sendStatus(400);
+        res.status(400).json({message: ""});
     }
 });
 
@@ -52,7 +52,7 @@ exports.find_races_horse = app.get("", async(req, res) => {
         res.json(Race["rows"])
     }
     catch (err) {
-        res.sendStatus(400);
+        res.status(400).json({message: ""});
     }
 });
 
@@ -71,7 +71,7 @@ exports.find_races_jockey = app.get("", async(req, res) => {
         res.json(Race["rows"])
     }
     catch (err) {
-        res.sendStatus(400);
+        res.status(400).json({message: ""});
     }
 });
 
