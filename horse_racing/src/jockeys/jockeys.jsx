@@ -23,6 +23,7 @@ const jockeys = [
 ]*/
 
 const Main = () => {
+    
     const [jockeys, setJockeys] = useState([]);
     /*
     /jockeys
@@ -33,16 +34,8 @@ const Main = () => {
         "age": "25",
         "num_wins": "2"
     }]*/
-    const handleClick = async (event) => {
-        event.preventDefault();
-        const res = await fetch('http://localhost:1337/api/jockeys', {
-            method: "GET",
-            headers: {
-                "Accept": "application/json", "Content-Type": "application/json"
-            };
-            body: JSON.stringify({})
-        })
-    }
+    findJockeys(() => {
+        fetch('http://localhost:1337/api/jockeys').then((res) => res.json()).then((res) => {setJockeys(res)})}, []);
     return (
         <main className={j.main}>
             <div className={j.sort}>
