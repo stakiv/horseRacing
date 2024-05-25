@@ -22,7 +22,18 @@ const jockeys = [
 ]
 
 const Main = () => {
-
+    /*
+    /jockeys
+    /jockeys?sortProperty=wins
+    [{
+        "jockey_id": "4",
+        "name": "РУРУРУ",
+        "age": "25",
+        "num_wins": "2"
+    }]*/
+    function handleClick() {
+        
+    }
     return (
         <main className={j.main}>
             <div className={j.sort}>
