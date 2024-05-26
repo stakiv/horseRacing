@@ -33,6 +33,7 @@ exports.find_jockeys = app.get("", async(req, res) => {
         res.json(Jockey["rows"])
     }
     catch (err) {
+        console.error(err)
         res.status(400).json({message: ""});
     }
 });
@@ -52,6 +53,7 @@ exports.find_jockeys_filter = app.get("", async(req, res) => {
     }
     catch (err) {
         res.status(400).json({message: ""});
+        console.error(err)
     }
 });
 
@@ -70,6 +72,7 @@ exports.find_jockeys_sort = app.get("", async(req, res) => {
         res.json(Jockey["rows"])
     }
     catch (err) {
+        console.error(err)
         res.status(400).json({message: ""});
     }
 });
