@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 exports.find_jockeys = app.get("", async(req, res) => {
     try {
-        const sort = req.query.filt;
+        const sort = req.query.order;
         if (sort == '') {
             const Jockey = await pool.query(
                 `SELECT "winners".jockey_id, jockey_name, jockey_age, "wins" FROM (
