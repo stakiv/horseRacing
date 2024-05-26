@@ -12,7 +12,7 @@ app.use((req, res, next) => {
     res.header('Access-control-Allow-Origin', '*');
     res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-control-Allow-Headers', 'Content-Type, Authorization');
-    next()
+    next();
 });
 
 
@@ -21,7 +21,6 @@ exports.find_races = app.get("", async (req, res) => {
         const horse = req.query.horse;
         const date = req.query.date;
         const jockey = req.query.jockey;
-        /*
         console.log(horse);
         console.log(date);
         console.log(jockey);
@@ -31,7 +30,6 @@ exports.find_races = app.get("", async (req, res) => {
         if (horse == '') {console.log("horse null")}
         if (jockey == '') {console.log("date null")}
         if (date == '') {console.log("jockey null")}
-        */
         let result;
         if (horse == '' && date == '' && jockey == '') {
             const Race = await pool.query(
