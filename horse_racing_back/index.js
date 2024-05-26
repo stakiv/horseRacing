@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const horseRouter = require("./routers/horsesRouters");
 const jockeyRouter = require("./routers/jockeysRouters");
 const raceRouter = require("./routers/racesRouters");
@@ -15,9 +16,9 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("./api", horseRouter);
-app.use("./api", jockeyRouter);
-app.use("./api", raceRouter);
+app.use("/api", horseRouter);
+app.use("/api", jockeyRouter);
+app.use("/api", raceRouter);
 
 (async() => {
     try {
