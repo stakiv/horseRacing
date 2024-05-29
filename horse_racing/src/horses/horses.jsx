@@ -1,25 +1,6 @@
 import { useEffect, useState } from 'react';
 import j from './horses.module.css'
-/*
-const horses = [
-    {
-        id: 0,
-        name: "Star",
-        suit: "Соловая",
-        age: 3,
-        owner: "Куликова Мария",
-        wins: 8,
-    },
-    {
-        id: 1,
-        name: "Moon",
-        suit: "Буланая",
-        age: 4,
-        owner: "Леонов Кирилл",
-        wins: 2,
-    }
 
-]*/
 
 const Main = () => {
     const location = useLocation();
@@ -27,22 +8,32 @@ const Main = () => {
     const orderby = urlParams.get('orderby');
 
     const [horses, setHorses] = useState([]);
-    const [resList, SetResList] = useState();
+    const [isSorted, setIsSorted] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const getHorses = async () => {
-            const res = await fetch('http://localhost:1337/api/horses?order=' + orderby, {
+        const fetchHorses = async() => {
+            const res = await fetch('http://localhost:1337/api/horses?order=', {
                 method: "GET"
             });
             if (res.ok) {
                 const data = await res.json()
-                SetResList(data);
-                setIsLoading(false)
+                setHorses(data);
             }
+        };
+        fetchHorses();
+    }, []);
+    const sortedHorses = async () => {
+        const res = await fetch('http://localhost:1337/api/horses?order=asc', {
+            method: "GET"
+        });
+        if (res.ok) {
+            const data = await res.json()
+            setHorses(data);
+            setIsSorted(true);
+            setIsLoading(false)
         }
-        getHorses();
-    })
+    }
     if (isLoading) {
         return <div>Загрузка...</div>
     }
@@ -51,7 +42,7 @@ const Main = () => {
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
-                    <input type='button' value={"Количество побед"} className={j.date} onClick={handleOrder}/>
+                    <input type='button' name={"wins"} value={"Количество побед"} className={j.date} onClick={sortedHorses} />
                 </div>
             </div>
             <div className={j.items}>
@@ -67,7 +58,7 @@ const Main = () => {
                             <th className={j.data}>Кол-во побед</th>
                         </tr>
 
-                        {resList && resList.map(i =>
+                        {horses.map(i =>
                             <tr className={j.row}>
                                 <td className={j.data}>{i['horse_id']}</td>
                                 <td className={j.data}>{i['horse_name']}</td>
@@ -76,7 +67,6 @@ const Main = () => {
                                 <td className={j.data}>{i['owner_id']}</td>
                                 <td className={j.data}>{i['horse_wins']}</td>
                             </tr>
-
                         )}
 
                     </table>

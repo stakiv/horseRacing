@@ -1,76 +1,72 @@
 import { useEffect, useState } from 'react';
 import j from './jockeys.module.css'
-/*
-const jockeys = [
-    {
-        id: 0,
-        name: "Рябова Елизавета",
-        age: 3,
-        wins: 8,
-    },
-    {
-        id: 1,
-        name: "Леонова Екатерина",
-        age: 3,
-        wins: 8,
-    },
-    {
-        id: 2,
-        name: "Рябова Екатерина",
-        age: 3,
-        wins: 8,
-    }
-]*/
+
 
 const Main = () => {
 
     const [jockeys, setJockeys] = useState([]);
-    /*
-    /jockeys
-    /jockeys?sortProperty=wins
-    [{
-        "jockey_id": "4",
-        "name": "РУРУРУ",
-        "age": "25",
-        "num_wins": "2"
-    }]*/
-    useEffect(() => {
-        fetch('http://localhost:1337/api/jockeys').then((res) => res.json()).then((res) => { setJockeys(res) })
-    }, []);
-    
-        return (
-            <main className={j.main}>
-                <div className={j.sort}>
-                    Сортировать по
-                    <div className={j.option}>
-                        <input type='button' value={"Количество побед"} className={j.date} />
-                    </div>
-                </div>
-                <div className={j.items}>
-                    <table className={j.item}>
+    const [isSorted, setIsSorted] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
+    useEffect(() => {
+        const fetchJockeys = async () => {
+            const res = await fetch('http://localhost:1337/api/jockeys?order=', {
+                method: "GET"
+            });
+            if (res.ok) {
+                const data = await res.json()
+                setJockeys(data);
+            }
+        };
+        fetchJockeys();
+    }, []);
+    const sortedJockeys = async () => {
+        const res = await fetch('http://localhost:1337/api/jockeys?order=asc', {
+            method: "GET"
+        });
+        if (res.ok) {
+            const data = await res.json()
+            setJockeys(data);
+            setIsSorted(true);
+            setIsLoading(false)
+        }
+    }
+    if (isLoading) {
+        return <div>Загрузка...</div>
+    }
+    return (
+        <main className={j.main}>
+            <div className={j.sort}>
+                Сортировать по
+                <div className={j.option}>
+                    <input type='button' value={"Количество побед"} className={j.date} onClick={sortedJockeys}/>
+                </div>
+            </div>
+            <div className={j.items}>
+                <table className={j.item}>
+
+                    <tr className={j.row}>
+                        <th className={j.data}>ID</th>
+                        <th className={j.data}>ФИО</th>
+                        <th className={j.data}>Возраст</th>
+                        <th className={j.data}>Кол-во побед</th>
+                    </tr>
+
+                    {jockeys.map(i =>
                         <tr className={j.row}>
-                            <th className={j.data}>ID</th>
-                            <th className={j.data}>ФИО</th>
-                            <th className={j.data}>Возраст</th>
-                            <th className={j.data}>Кол-во побед</th>
+                            <td className={j.data}>{i['jockey_id']}</td>
+                            <td className={j.data}>{i['jockey_name']}</td>
+                            <td className={j.data}>{i['jockey_age']}</td>
+                            <td className={j.data}>{i['jockey_wins']}</td>
                         </tr>
 
-                        {jockeys.map(i =>
-                            <tr className={j.row}>
-                                <td className={j.data}>{i.id}</td>
-                                <td className={j.data}>{i.name}</td>
-                                <td className={j.data}>{i.age}</td>
-                                <td className={j.data}>{i.wins}</td>
-                            </tr>
+                    )}
 
-                        )}
+                </table>
+            </div>
 
-                    </table>
-                </div>
-
-            </main>
-        )
-    }
+        </main>
+    )
+}
 
 export default Main

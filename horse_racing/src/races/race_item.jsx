@@ -1,28 +1,19 @@
 import r from './race_item.module.css'
-const ite = [
-    {
-        number: 1,
-        horse: "star",
-        jockey: "Регулус Блэк",
-        time: "12:23"
-    },
-    {
-        number: 2,
-        horse: "moon",
-        jockey: "Альбус Альбус АульбусДамблдор",
-        time: "12:45"
-    }
-]
 
 const race = (props) => {
-    const num = props.num;
+    const id = props.race_id;
+    const race = props.race_name;
+    const horses = props.horse_name;
+    const jockey = props.jockey_name;
+    const time = props.time;
+
     return (
         <div className={r.main}>
 
             <table className={r.item}>
                 
                 <header className={r.item_header}>
-                    Заезд № {num}
+                    Заезд № {id} "{race}"
                 </header>
                 <tr className={r.row}>
                     <th className={r.data}>№</th>
@@ -31,9 +22,9 @@ const race = (props) => {
                     <th className={r.data}>Время</th>
                 </tr>
 
-                {ite.map(i =>
+                {horses.map(i =>
                     <tr className={r.row}>
-                        <td className={r.data}>{i.number}</td>
+                        <td className={r.data}>{i}</td>
                         <td className={r.data}>{i.horse}</td>
                         <td className={r.data}>{i.jockey}</td>
                         <td className={r.data}>{i.time}</td>
