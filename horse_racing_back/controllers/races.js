@@ -21,6 +21,7 @@ exports.find_races = app.get("", async (req, res) => {
         const horse = req.query.horse;
         const date = req.query.date;
         const jockey = req.query.jockey;
+        /*
         console.log(horse);
         console.log(date);
         console.log(jockey);
@@ -29,7 +30,7 @@ exports.find_races = app.get("", async (req, res) => {
         console.log(typeof(date));
         if (horse == '') {console.log("horse null")}
         if (jockey == '') {console.log("date null")}
-        if (date == '') {console.log("jockey null")}
+        if (date == '') {console.log("jockey null")}*/
         let result;
         if (horse == '' && date == '' && jockey == '') {
             const Race = await pool.query(

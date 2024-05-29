@@ -1,12 +1,11 @@
 import m from './races.module.css'
+import r from './race_item.module.css'
 import Race from './race_item'
 import { useEffect, useState } from 'react'
 
 
 const Main = () => {
 
-    const [isFiltered, setIsFiltered] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [races, setRaces] = useState([]);
     const [optionDate, setOptionDate] = useState('');
     const [optionHorse, setOptionHorse] = useState('');
@@ -84,6 +83,7 @@ const Main = () => {
                 <div className={m.option}>
                     <div>Лошадь</div>
                     <select className={m.date} value={optionHorse} onChange={handleOptionChangeHorse}>
+                        <option value={"Все"}>Все</option>
                         {horses.map(h => <option key={h.horse_id} value={h.horse_name}>{h.horse_name}</option>)}
                     </select>
                 </div>
@@ -91,12 +91,13 @@ const Main = () => {
                 <div className={m.option}>
                     <div>Жокей</div>
                     <select className={m.date} value={optionJockey} onChange={handleOptionChangeJockey}>
+                    <option value={"Все"}>Все</option>
                         {jockeys.map(h => <option key={h.jockey_id} value={h.jockey_name}>{h.jockey_name}</option>)}
                     </select>
                 </div>
             </div>
             <div className={m.items}>
-                {races.map((race, index) => (
+                {races?.map((race, index) => (
                     <div key={index} className={r.main}>
 
                         <table className={r.item}>
@@ -104,17 +105,17 @@ const Main = () => {
                             <header className={r.item_header}>
                                 Заезд № {race.race_id} "{race.name}"
                             </header>
-                            <thead>
+                            
                                 <tr className={r.row}>
                                     <th className={r.data}>№</th>
                                     <th className={r.data}>Лошадь</th>
                                     <th className={r.data}>Жокей</th>
                                     <th className={r.data}>Время</th>
                                 </tr>
-                            </thead>
+                            
 
                             <tbody>
-                                {race.horses.map((horse, hIndex) =>
+                                {race.horses?.map((horse, hIndex) =>
                                     <tr key={`${index}-${hIndex}`} className={r.row}>
                                         <td className={r.data}>{hIndex + 1}</td>
                                         <td className={r.data}>{horse}</td>

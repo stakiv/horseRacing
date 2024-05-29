@@ -3,17 +3,13 @@ import j from './horses.module.css'
 
 
 const Main = () => {
-    const location = useLocation();
-    const urlParams = new URLSearchParams(location.search);
-    const orderby = urlParams.get('orderby');
 
     const [horses, setHorses] = useState([]);
     const [isSorted, setIsSorted] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchHorses = async() => {
-            const res = await fetch('http://localhost:1337/api/horses?order=', {
+            const res = await fetch('http://localhost:1337/api/horses?order=&filter=', {
                 method: "GET"
             });
             if (res.ok) {
@@ -24,18 +20,14 @@ const Main = () => {
         fetchHorses();
     }, []);
     const sortedHorses = async () => {
-        const res = await fetch('http://localhost:1337/api/horses?order=asc', {
+        const res = await fetch('http://localhost:1337/api/horses?order=desc&filter=', {
             method: "GET"
         });
         if (res.ok) {
             const data = await res.json()
             setHorses(data);
             setIsSorted(true);
-            setIsLoading(false)
         }
-    }
-    if (isLoading) {
-        return <div>Загрузка...</div>
     }
     return (
         <main className={j.main}>
@@ -50,6 +42,7 @@ const Main = () => {
                     <table className={j.item}>
 
                         <tr className={j.row}>
+                            <th className={j.data}>№</th>
                             <th className={j.data}>ID</th>
                             <th className={j.data}>Кличка</th>
                             <th className={j.data}>Масть</th>
@@ -58,14 +51,15 @@ const Main = () => {
                             <th className={j.data}>Кол-во побед</th>
                         </tr>
 
-                        {horses.map(i =>
+                        {horses.map((i, index) =>
                             <tr className={j.row}>
+                                <td className={j.data}>{index+1}</td>
                                 <td className={j.data}>{i['horse_id']}</td>
                                 <td className={j.data}>{i['horse_name']}</td>
                                 <td className={j.data}>{i['suit']}</td>
                                 <td className={j.data}>{i['horse_age']}</td>
-                                <td className={j.data}>{i['owner_id']}</td>
-                                <td className={j.data}>{i['horse_wins']}</td>
+                                <td className={j.data}>{i['owner_name']}</td>
+                                <td className={j.data}>{i['wins']}</td>
                             </tr>
                         )}
 
