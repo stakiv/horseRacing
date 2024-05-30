@@ -3,6 +3,7 @@ const path = require('path');
 const horseRouter = require("./routers/horsesRouters");
 const jockeyRouter = require("./routers/jockeysRouters");
 const raceRouter = require("./routers/racesRouters");
+const raceItemRouter = require("./routers/raceItemsRouters");
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 app.use("/api", horseRouter);
 app.use("/api", jockeyRouter);
 app.use("/api", raceRouter);
+app.use("/api", raceItemRouter);
 
 (async() => {
     try {

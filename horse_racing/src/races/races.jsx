@@ -98,7 +98,7 @@ const Main = () => {
             </div>
             <div className={m.items}>
                 {races?.map((race) => (
-                    <Race race_id={race.race_id} />
+                    <Race race_id={race.race_id} race_name={race.name}/>
                     /*
                     <div key={index} className={r.main}>
 

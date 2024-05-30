@@ -4,7 +4,6 @@ const raceController = require("../controllers/races");
 const raceRouter = express.Router();
 
 raceRouter.use("/races", raceController.find_races);
-raceRouter.use("/races", raceController.find_race_data);
 /*
 raceRouter.use("/races", raceController.find_races_date);
 raceRouter.use("/races", raceController.find_races_horse);
