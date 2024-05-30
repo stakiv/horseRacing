@@ -1,12 +1,22 @@
+import { useEffect } from 'react';
 import r from './race_item.module.css'
 
-const race = (props) => {
+const Race = (props) => {
+    const [races, setRaces] = useState([]);
     const id = props.race_id;
-    const race = props.race_name;
-    const horses = props.horse_name;
-    const jockey = props.jockey_name;
-    const time = props.time;
-
+    useEffect(() => {
+        const fetchRaceData = async () => {
+            const res = await fetch('http://localhost:1337/api/races?raceid=' + `${id}`, {
+                method: "GET"
+            });
+            if (res.ok) {
+                const data = await res.json()
+                setRaces(data);
+            }
+        };
+        fetchRaceData();
+    }, [])
+    
     return (
         <div className={r.main}>
 
@@ -32,7 +42,7 @@ const race = (props) => {
 
                 )}
             </table>
-            {/* 
+            {
             <div className={r.item}>
 
                 <header className={r.item_header}>
@@ -58,9 +68,9 @@ const race = (props) => {
 
                 </main>
             </div>
-                */}
+                }
         </div>
     )
 }
 
-export default race
+export default Race

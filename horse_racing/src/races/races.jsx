@@ -97,7 +97,9 @@ const Main = () => {
                 </div>
             </div>
             <div className={m.items}>
-                {races?.map((race, index) => (
+                {races?.map((race) => (
+                    <Race race_id={race.race_id} />
+                    /*
                     <div key={index} className={r.main}>
 
                         <table className={r.item}>
@@ -126,7 +128,7 @@ const Main = () => {
                                 )}
                             </tbody>
                         </table>
-                    </div>
+                    </div>*/
                 )
                     /*
                     <Race race_id={race.race_id} race={race.name} horses={[race.horse_name]} jockey={[race.jockey_name]} time={[race.time]}/>
