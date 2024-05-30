@@ -17,20 +17,20 @@ app.use((req, res, next) => {
 
 exports.find_race_data = app.get("", async (req, res) => {
     try {
-        const race = req.query.raceid;
-        let result;
+        const race_id = req.query.raceid;
+        console.log(race_id);
         const Race = await pool.query(
-            `SELECT horse_name, jockey_name, time FROM participants
+            `SELECT date, horse_name, jockey_name, time FROM participants
             JOIN races ON races.race_id = participants.race_id
             JOIN horses ON participants.horse_id = horses.horse_id
             JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-            WHERE races.race_id = ${race}`
+            WHERE races.race_id = ${race_id}
+            ORDER BY time ASC`
         )
         result = Race['rows']
         res.json(result)
 
-    }
-    catch (err) {
+    } catch (err) {
         res.status(400).json({ message: "" });
         console.error(err)
     }

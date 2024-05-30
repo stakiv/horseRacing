@@ -15,6 +15,7 @@ const Main = () => {
 
     const handleOptionChangeDate = ({ target: { value } }) => {
         setOptionDate(value)
+        console.log(value);
     };
     const handleOptionChangeHorse = ({ target: { value } }) => {
         setOptionHorse(value)
@@ -31,21 +32,28 @@ const Main = () => {
                     url += `date=${optionDate}`
                 } else { url += `date=` }
                 if (optionHorse) {
-                    url += `horse=${optionHorse}`
-                } else { url += `horse=` }
+                    url += `&horse=${optionHorse}`
+                } else { url += `&horse=` }
                 if (optionJockey) {
-                    url += `jockey=${optionJockey}`
-                } else { url += `jockey=` }
+                    url += `&jockey=${optionJockey}`
+                } else { url += `&jockey=` }
             }
             else {
                 url += `date=&horse=&jockey=`
             }
+            console.log(url);
+            console.log(optionHorse);
+            console.log(optionDate);
+            console.log(optionJockey);
             const res = await fetch(url, {
-                method: "GET"
+                method: "GET",
+                headers: { "Accept": "application/json", "Content-Type":
+                "application/json" }
             });
             if (res.ok) {
                 const data = await res.json()
                 setRaces(data);
+                
             }
         };
         const fetchHorses = async () => {
@@ -97,38 +105,9 @@ const Main = () => {
                 </div>
             </div>
             <div className={m.items}>
-                {races?.map((race) => (
-                    <Race race_id={race.race_id} race_name={race.name}/>
-                    /*
-                    <div key={index} className={r.main}>
-
-                        <table className={r.item}>
-
-                            <header className={r.item_header}>
-                                Заезд № {race.race_id} "{race.name}"
-                            </header>
-                            
-                                <tr className={r.row}>
-                                    <th className={r.data}>№</th>
-                                    <th className={r.data}>Лошадь</th>
-                                    <th className={r.data}>Жокей</th>
-                                    <th className={r.data}>Время</th>
-                                </tr>
-                            
-
-                            <tbody>
-                                {race.horses?.map((horse, hIndex) =>
-                                    <tr key={`${index}-${hIndex}`} className={r.row}>
-                                        <td className={r.data}>{hIndex + 1}</td>
-                                        <td className={r.data}>{horse}</td>
-                                        <td className={r.data}>{race.jockeys[hIndex]}</td>
-                                        <td className={r.data}>{race.time[hIndex]}</td>
-                                    </tr>
-
-                                )}
-                            </tbody>
-                        </table>
-                    </div>*/
+                {races.map((race) => (
+                    
+                    <Race race_id={race['race_id']} race_name={race['name']} date={race['date']}/>
                 )
                     /*
                     <Race race_id={race.race_id} race={race.name} horses={[race.horse_name]} jockey={[race.jockey_name]} time={[race.time]}/>
