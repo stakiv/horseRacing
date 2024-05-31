@@ -78,24 +78,62 @@ exports.find_races = app.get("", async (req, res) => {
                 )
                 result = Race['rows']
             }
+            else {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name, date FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    WHERE jockey_name = '${jockey}'
+                    AND horse_name = '${horse}'`
+                    /*
+                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    WHERE jockey_name = '${jockey}'
+                    AND horse_name = '${horse}'`*/
+                )
+                result = Race['rows']
+            }
         }
-        else if (horse == '' && jockey == '') {
-            const Race = await pool.query(
-                `SELECT races.race_id, name FROM races
-                JOIN participants ON participants.race_id = races.race_id
-                JOIN horses ON participants.horse_id = horses.horse_id
-                JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                WHERE races.date = '${date}'
-                `
-                /*
-                `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                JOIN participants ON participants.race_id = races.race_id
-                JOIN horses ON participants.horse_id = horses.horse_id
-                JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                WHERE races.date = '${date}'
-                GROUP BY races.race_id, name, horse_name, jockey_name, time`*/
-            )
-            result = Race['rows']
+        else if (horse == '' ) {
+            if (jockey == '') {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    WHERE races.date = '${date}'
+                    `
+                    /*
+                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    WHERE races.date = '${date}'
+                    GROUP BY races.race_id, name, horse_name, jockey_name, time`*/
+                )
+                result = Race['rows']
+            }
+            else {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name, date FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    WHERE races.date = '${date}'
+                    AND jockey_name = '${jockey}'`
+                    /*
+                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    WHERE races.date = '${date}'
+                    AND jockey_name = '${jockey}`*/
+                )
+                result = Race['rows']
+            }
+            
         }
         else {
             if (date == '') {
