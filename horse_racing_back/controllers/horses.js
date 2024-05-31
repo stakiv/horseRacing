@@ -45,7 +45,7 @@ exports.find_horses = app.get("", async(req, res) => {
             result = Horse["rows"]
         } else if (sort == '') {
             const Horse = await pool.query(
-                `SELECT horse_name FROM horses
+                `SELECT horse_id, horse_name, suit FROM horses
                 ORDER BY horse_name ASC`
             )
             result = Horse["rows"]

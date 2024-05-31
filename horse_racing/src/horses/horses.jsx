@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import j from './horses.module.css'
+import Add from './add_horse'
 
 
 const Main = () => {
