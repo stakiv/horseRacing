@@ -91,7 +91,7 @@ const Main = () => {
                 <div className={m.option}>
                     <div>Лошадь</div>
                     <select className={m.date} value={optionHorse} onChange={handleOptionChangeHorse}>
-                        <option value={"Все"}>Все</option>
+                        <option value={""}>Все</option>
                         {horses.map(h => <option key={h.horse_id} value={h.horse_name}>{h.horse_name}</option>)}
                     </select>
                 </div>
@@ -99,7 +99,7 @@ const Main = () => {
                 <div className={m.option}>
                     <div>Жокей</div>
                     <select className={m.date} value={optionJockey} onChange={handleOptionChangeJockey}>
-                    <option value={"Все"}>Все</option>
+                    <option value={""}>Все</option>
                         {jockeys.map(h => <option key={h.jockey_id} value={h.jockey_name}>{h.jockey_name}</option>)}
                     </select>
                 </div>

@@ -36,6 +36,9 @@ const Main = () => {
                 <div className={j.option}>
                     <input type='button' name={"wins"} value={"Количество побед"} className={j.date} onClick={sortedHorses} />
                 </div>
+                <div className={j.option}>
+                    <input type='button' name={"alph"} value={"Алфавит"} className={j.date} onClick={sortedHorses} />
+                </div>
             </div>
             <div className={j.items}>
                 <div className={j.marg}>

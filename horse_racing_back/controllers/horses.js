@@ -40,7 +40,7 @@ exports.find_horses = app.get("", async(req, res) => {
                     ) AS "winners"
                     JOIN horses ON horses.horse_id = "winners".horse_id
                     JOIN owners ON horses.owner_id = owners.owner_id
-                    ORDER BY wins ${sort}`
+                    ORDER BY wins ${sort}, horse_name ASC`
             )
             result = Horse["rows"]
         } else if (sort == '') {

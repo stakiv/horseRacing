@@ -116,7 +116,7 @@ exports.find_races = app.get("", async (req, res) => {
                 )
                 result = Race['rows']
             }
-            if (jockey == '') {
+            else if (jockey == '') {
                 const Race = await pool.query(
                     `SELECT races.race_id, name, date FROM races
                     JOIN participants ON participants.race_id = races.race_id
@@ -133,7 +133,7 @@ exports.find_races = app.get("", async (req, res) => {
                 )
                 result = Race['rows']
             }
-            if (horse == '') {
+            else if (horse == '') {
                 const Race = await pool.query(
                     `SELECT races.race_id, name, date FROM races
                     JOIN participants ON participants.race_id = races.race_id
@@ -147,6 +147,18 @@ exports.find_races = app.get("", async (req, res) => {
                     JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
                     WHERE races.date = '${date}'
                     AND jockey_name = '${jockey}`*/
+                )
+                result = Race['rows']
+            }
+            else {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name, date FROM races
+                    JOIN participants ON participants.race_id = races.race_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    WHERE races.date = '${date}'
+                    AND horse_name = '${horse}'
+                    AND jockey_name = '${jockey}'`
                 )
                 result = Race['rows']
             }
