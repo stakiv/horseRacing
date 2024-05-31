@@ -19,8 +19,18 @@ const Main = () => {
         };
         fetchJockeys();
     }, []);
-    const sortedJockeys = async () => {
+    const sortedJockeysWins = async () => {
         const res = await fetch('http://localhost:1337/api/jockeys?order=desc&filter=', {
+            method: "GET"
+        });
+        if (res.ok) {
+            const data = await res.json()
+            setJockeys(data);
+            setIsSorted(true);
+        }
+    }
+    const sortedJockeysAlph = async () => {
+        const res = await fetch('http://localhost:1337/api/jockeys?order=&filter=', {
             method: "GET"
         });
         if (res.ok) {
@@ -34,7 +44,10 @@ const Main = () => {
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
-                    <input type='button' value={"Количество побед"} className={j.date} onClick={sortedJockeys}/>
+                    <input type='button' value={"Количество побед"} className={j.date} onClick={sortedJockeysWins}/>
+                </div>
+                <div className={j.option}>
+                    <input type='button' value={"Алфавит"} className={j.date} onClick={sortedJockeysAlph}/>
                 </div>
             </div>
             <div className={j.items}>
