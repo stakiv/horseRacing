@@ -100,12 +100,12 @@ exports.find_races = app.get("", async (req, res) => {
         else if (horse == '' ) {
             if (jockey == '') {
                 const Race = await pool.query(
-                    `SELECT races.race_id, name FROM races
+                    `SELECT races.race_id, name, date FROM races
                     JOIN participants ON participants.race_id = races.race_id
                     JOIN horses ON participants.horse_id = horses.horse_id
                     JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
                     WHERE races.date = '${date}'
-                    `
+                    GROUP BY races.race_id`
                     /*
                     `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
                     JOIN participants ON participants.race_id = races.race_id
@@ -211,20 +211,7 @@ exports.find_races = app.get("", async (req, res) => {
     };
 });
 
-
-/*заданная лошадь*/
 /*
-exports.find_races_horse = app.get("", async(req, res) => {
-    try {
-        const horse = req.query.horse;
-@@ -71,11 +140,12 @@ exports.find_races_horse = app.get("", async(req, res) => {
-        res.json(Race["rows"])
-    }
-    catch (err) {
-        console.error(err)
-        res.status(400).json({message: ""});
-    }
-});
 
 
  ВЫВОДИТ ДЛЯ КАЖДОЙ ГОНКИ МИНИМАЛЬНОЕ ВРЕМЯ
