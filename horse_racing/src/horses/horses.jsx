@@ -41,6 +41,9 @@ const Main = () => {
     }
     return (
         <main className={j.main}>
+            <div className={j.add}>
+                <input type='button' name={"add"} value={""} className={j.add_button} /*onClick={addNewHorse}*/ />
+            </div>
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
