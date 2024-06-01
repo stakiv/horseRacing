@@ -44,14 +44,26 @@ const Main = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     }
-    const handleAdd = async () => {
-        const res = await fetch('', {
-            method: "POST"
+    const handleAdd = async ({ target: { value } }) => {
+        const id = value.owner_id;
+        const horse = value.horse;
+        const suit = value.suit;
+        const age = value.age;
+
+        const res = await fetch('http://localhost:1337/api/horses', {
+            method: "POST",
+            headers: { "Accept": "application/json", "Content-Type": "application/json" },
+            body: JSON.stringify({
+                horse,
+                suit, 
+                age,
+                id
+            })
         });
         if (res.ok) {
-            const data = await res.json()
-            setHorses(data);
+            console.log("Лошадь добавлена");
         }
+        else console.log("Лошадь не добавлена")
     }
     const addNewHorse = () => {
         setIsModalOpen(true);

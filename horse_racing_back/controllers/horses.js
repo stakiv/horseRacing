@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     next()
 });
 
-exports.find_horses = app.get("", async(req, res) => {
+exports.find_horses = app.get("", async (req, res) => {
     try {
         const sort = req.query.order;
         const filt = req.query.filter;
@@ -55,7 +55,23 @@ exports.find_horses = app.get("", async(req, res) => {
     }
     catch (err) {
         console.error(err)
-        res.status(400).json({message: ""});
+        res.status(400).json({ message: "" });
+    }
+});
+
+exports.add_horse = app.get("", async (req, res) => {
+    try {
+        const horse_name = req.query.horse;
+        const suit = req.query.suit;
+        const age = req.query.age;
+        const owner = req.query.id;
+        const Horse = await pool.query(
+            `INSERT INTO horses (horse_name, suit, horse_age, owner_id) VALUES ('${horse_name}', '${suit}', ${age}, ${owner})`
+        )
+    }
+    catch (err) {
+        console.error(err)
+        res.status(400).json({ message: "" });
     }
 });
 /*SELECT horses.horse_id, COUNT(*) FROM horses
