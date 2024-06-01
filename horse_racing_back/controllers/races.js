@@ -100,7 +100,7 @@ exports.find_races = app.get("", async (req, res) => {
         else if (horse == '' ) {
             if (jockey == '') {
                 const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
+                    `SELECT races.race_id, name FROM races
                     JOIN participants ON participants.race_id = races.race_id
                     JOIN horses ON participants.horse_id = horses.horse_id
                     JOIN jockeys ON participants.jockey_id = jockeys.jockey_id

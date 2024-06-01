@@ -7,9 +7,10 @@ const Main = () => {
 
     const [horses, setHorses] = useState([]);
     const [isSorted, setIsSorted] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        const fetchHorses = async() => {
+        const fetchHorses = async () => {
             const res = await fetch('http://localhost:1337/api/horses?order=&filter=', {
                 method: "GET"
             });
@@ -40,11 +41,27 @@ const Main = () => {
             setIsSorted(true);
         }
     }
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    }
+    const handleAdd = async () => {
+        const res = await fetch('', {
+            method: "POST"
+        });
+        if (res.ok) {
+            const data = await res.json()
+            setHorses(data);
+        }
+    }
+    const addNewHorse = () => {
+        setIsModalOpen(true);
+    }
     return (
         <main className={j.main}>
             <div className={j.add}>
-                <input type='button' name={"add"} value={""} className={j.add_button} /*onClick={addNewHorse}*/ />
+                <input type='button' name={"add"} value={""} className={j.add_button} onClick={addNewHorse} />
             </div>
+            <Add isOpen={isModalOpen} onAdd={handleAdd} onCancel={handleCancel} />
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
@@ -70,7 +87,7 @@ const Main = () => {
 
                         {horses.map((i, index) =>
                             <tr className={j.row}>
-                                <td className={j.data}>{index+1}</td>
+                                <td className={j.data}>{index + 1}</td>
                                 <td className={j.data}>{i['horse_id']}</td>
                                 <td className={j.data}>{i['horse_name']}</td>
                                 <td className={j.data}>{i['suit']}</td>
