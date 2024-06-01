@@ -44,27 +44,7 @@ const Main = () => {
     const handleCancel = () => {
         setIsModalOpen(false);
     }
-    const handleAdd = async ({ target: { value } }) => {
-        const id = value.owner_id;
-        const horse = value.horse;
-        const suit = value.suit;
-        const age = value.age;
-
-        const res = await fetch('http://localhost:1337/api/horses', {
-            method: "POST",
-            headers: { "Accept": "application/json", "Content-Type": "application/json" },
-            body: JSON.stringify({
-                horse,
-                suit, 
-                age,
-                id
-            })
-        });
-        if (res.ok) {
-            console.log("Лошадь добавлена");
-        }
-        else console.log("Лошадь не добавлена")
-    }
+    
     const addNewHorse = () => {
         setIsModalOpen(true);
     }
@@ -73,7 +53,7 @@ const Main = () => {
             <div className={j.add}>
                 <input type='button' name={"add"} value={""} className={j.add_button} onClick={addNewHorse} />
             </div>
-            <Add isOpen={isModalOpen} onAdd={handleAdd} onCancel={handleCancel} />
+            <Add isOpen={isModalOpen} onCancel={handleCancel} />
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>

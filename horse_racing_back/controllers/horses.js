@@ -59,19 +59,25 @@ exports.find_horses = app.get("", async (req, res) => {
     }
 });
 
-exports.add_horse = app.get("", async (req, res) => {
+exports.add_horse = app.post("", async (req, res) => {
     try {
-        const horse_name = req.query.horse;
-        const suit = req.query.suit;
-        const age = req.query.age;
-        const owner = req.query.id;
+        const horse_name = req.body.horse;
+        const suit = req.body.suit;
+        const age = req.body.age;
+        const owner = req.body.id;
+        console.log(horse_name);
+        console.log(suit);
+        console.log(age);
+        console.log(owner);
+
         const Horse = await pool.query(
             `INSERT INTO horses (horse_name, suit, horse_age, owner_id) VALUES ('${horse_name}', '${suit}', ${age}, ${owner})`
         )
+        res.status(200).json({message: "Лошадь добавлена"})
     }
     catch (err) {
-        console.error(err)
-        res.status(400).json({ message: "" });
+        console.error("ошибка при добавлении лошади", err);
+        res.status(500).json({ message: "" });
     }
 });
 /*SELECT horses.horse_id, COUNT(*) FROM horses

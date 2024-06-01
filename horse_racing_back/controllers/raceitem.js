@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 exports.find_race_data = app.get("", async (req, res) => {
     try {
         const race_id = req.query.raceid;
-        console.log(race_id);
+        /*console.log(race_id);*/
         const Race = await pool.query(
             `SELECT date, horse_name, jockey_name, time FROM participants
             JOIN races ON races.race_id = participants.race_id
