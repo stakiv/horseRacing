@@ -15,7 +15,6 @@ const Main = () => {
 
     const handleOptionChangeDate = ({ target: { value } }) => {
         setOptionDate(value)
-        console.log(value);
     };
     const handleOptionChangeHorse = ({ target: { value } }) => {
         setOptionHorse(value)

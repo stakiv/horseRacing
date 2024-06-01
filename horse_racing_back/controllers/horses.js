@@ -9,7 +9,7 @@ const pool = new Pool({
 });
 const app = express();
 app.use((req, res, next) => {
-    res.header('Access-control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-control-Allow-Headers', 'Content-Type, Authorization');
     next()
@@ -59,27 +59,6 @@ exports.find_horses = app.get("", async (req, res) => {
     }
 });
 
-exports.add_horse = app.post("", async (req, res) => {
-    try {
-        const horse_name = req.body.horse;
-        const suit = req.body.suit;
-        const age = req.body.age;
-        const owner = req.body.id;
-        console.log(horse_name);
-        console.log(suit);
-        console.log(age);
-        console.log(owner);
-
-        const Horse = await pool.query(
-            `INSERT INTO horses (horse_name, suit, horse_age, owner_id) VALUES ('${horse_name}', '${suit}', ${age}, ${owner})`
-        )
-        res.status(200).json({message: "Лошадь добавлена"})
-    }
-    catch (err) {
-        console.error("ошибка при добавлении лошади", err);
-        res.status(500).json({ message: "" });
-    }
-});
 /*SELECT horses.horse_id, COUNT(*) FROM horses
 JOIN participants ON participants.horse_id = horses.horse_id
 JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
