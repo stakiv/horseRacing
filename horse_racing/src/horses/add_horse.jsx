@@ -19,14 +19,14 @@ const Add = ({ isOpen, onCancel }) => {
         value = event.target.value;
         setFormData({...formData, [name]: value})
     };
-
+    /*
     const handleOptionChange = (event) => {
         const { name, val } = event.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
             [name]: val,
         }));
-    };
+    };*/
 
 
     useEffect(() => {
@@ -98,7 +98,7 @@ const Add = ({ isOpen, onCancel }) => {
                     <form className={ah.form} onSubmit={handlerSubmit}>
                         <label className={ah.label} for="owner">Владелец</label>
                         <select className={ah.date} id='owner' name='owner' value={formData.owner} onChange={handlerChange} required>
-                            {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name}</option>)}
+                            {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name} {h.owner_id}</option>)}
                         </select>
 
                         <label className={ah.label} for="horse">Кличка лошади</label>

@@ -29,18 +29,18 @@ app.use((req, res, next) => {
 
 exports.add_horse = app.post("", async (req, res) => {
     try {
-        const { owner, horse_name, suit, age } = req.body;
+        const { owner, horse, suit, age } = req.body;
 
         console.log(owner);
-        console.log(horse_name);
+        console.log(horse);
         console.log(suit);
         console.log(age);
 
         const Horse = await pool.query(
-            `INSERT INTO horses (horse_name, suit, horse_age, owner_id) VALUES ('${horse_name}', '${suit}', ${age}, ${owner})`
+            `INSERT INTO horses (horse_name, suit, horse_age, owner_id) VALUES ('${horse}', '${suit}', ${age}, ${owner})`
         )
-        res.status(200).json({ message: "Лошадь добавлена" });
-        res.json(Horse["rows"]);
+        res.status(200).json({ message: "Лошадь добавлена", data: Horse.rows });
+        //res.json(Horse["rows"]);
     }
     catch (err) {
         console.error("ошибка при добавлении лошади", err);
