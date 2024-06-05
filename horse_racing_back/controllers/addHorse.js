@@ -1,5 +1,7 @@
 const Pool = require('pg').Pool
 const express = require("express")
+const cors = require("cors");
+
 const pool = new Pool({
     user: 'postgres',
     password: 'mirandolina',
@@ -9,28 +11,40 @@ const pool = new Pool({
 });
 const app = express();
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-control-Allow-Headers', 'Content-Type, Authorization');
+    /*
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    headers: ['Content-Type', 'Authorization']*/
+    
+    const origin = req.headers.origin;
+    const allowedOrigins = ['http://localhost:3000'];
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader('Access-Control-Allow-Origin', origin);
+        res.setHeader('Access-control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        res.setHeader('Access-control-Allow-Headers', 'Content-Type, Authorization');
+    }
+
     next()
 });
 
-exports.add_horse = app.post("http://localhost:1337/api/addhorse", async (req, res) => {
+exports.add_horse = app.post("", async (req, res) => {
     try {
-        const {owner, horse_name, suit, age }= req.body;
-        
+        const { owner, horse_name, suit, age } = req.body;
+
+        console.log(owner);
         console.log(horse_name);
         console.log(suit);
         console.log(age);
-        console.log(owner);
 
         const Horse = await pool.query(
             `INSERT INTO horses (horse_name, suit, horse_age, owner_id) VALUES ('${horse_name}', '${suit}', ${age}, ${owner})`
         )
-        res.status(200).json({message: "Лошадь добавлена"})
+        res.status(200).json({ message: "Лошадь добавлена" });
+        res.json(Horse["rows"]);
     }
     catch (err) {
         console.error("ошибка при добавлении лошади", err);
-        res.status(500).json({ message: "" });
+        res.status(400);
+        //res.status(500).json({ message: "Произошла ошибка при добавлении лошади" });
     }
 });

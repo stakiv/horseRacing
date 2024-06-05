@@ -7,22 +7,25 @@ const Add = ({ isOpen, onCancel }) => {
     const [horses, setHorses] = useState([]);
 
     const [formData, setFormData] = useState({
-        id: '',
+        owner: '',
         horse: '',
         suit: '',
         age: '',
     })
 
-    /*
-    const [optionOwner, setOptionOwner] = useState('');
-    const [optionSuit, setOptionSuit] = useState('');
-    const [optionHorse, setOptionHorse] = useState('');
-    const [optionAge, setOptionAge] = useState('');*/
-
+    let name, value;
+    const handlerChange = (event) => {
+        name = event.target.name;
+        value = event.target.value;
+        setFormData({...formData, [name]: value})
+    };
 
     const handleOptionChange = (event) => {
         const { name, val } = event.target;
-        setFormData({ ...formData, [name]: val });
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            [name]: val,
+        }));
     };
 
 
@@ -50,21 +53,35 @@ const Add = ({ isOpen, onCancel }) => {
         fetchHorses();
     }, []);
 
-    const handlerSubmit = async ({ target: { value } }) => {
-
+    const handlerSubmit = async (event) => {
+        //event.preventDefault();
+        console.log(formData.id);
+        console.log(formData.horse);
+        console.log(formData.suit);
+        console.log(formData.age);
+        const {owner, horse, suit, age} = formData;
         const res = await fetch('http://localhost:1337/api/addhorse', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                "Accept": "application/json", "Content-Type":
+                "application/json",
+                'Origin': 'http://localhost:3000'
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify({
+                owner,
+                horse,
+                suit,
+                age,
+            }),
         });
+        console.log(res.status);
 
         if (res.ok) {
             console.log("Лошадь добавлена");
         }
         else {
             console.log("Лошадь не добавлена");
+            console.error(await res.json())
         }
     }
 
@@ -80,20 +97,20 @@ const Add = ({ isOpen, onCancel }) => {
                 <main>
                     <form className={ah.form} onSubmit={handlerSubmit}>
                         <label className={ah.label} for="owner">Владелец</label>
-                        <select className={ah.date} id='owner' name='owner' value={formData.id} onChange={handleOptionChange} required>
+                        <select className={ah.date} id='owner' name='owner' value={formData.owner} onChange={handlerChange} required>
                             {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name}</option>)}
                         </select>
 
                         <label className={ah.label} for="horse">Кличка лошади</label>
-                        <input type='text' id='horse' name='horse' minLength={"2"} className={ah.date} value={formData.horse} onChange={handleOptionChange} required />
+                        <input type='text' id='horse' name='horse' className={ah.date} value={formData.horse} onChange={handlerChange} required />
 
                         <label className={ah.label} for="suit">Масть</label>
-                        <select className={ah.date} id='suit' name='suit' value={formData.suit} onChange={handleOptionChange} required>
-                            {horses.map(h => <option value={h.owner_id} key={h.horse_id}>{h.suit}</option>)}
+                        <select className={ah.date} id='suit' name='suit' value={formData.suit} onChange={handlerChange} required>
+                            {horses.map(h => <option value={h.suit} key={h.horse_id}>{h.suit}</option>)}
                         </select>
 
                         <label className={ah.label} for="age">Возраст</label>
-                        <input id='age' name='age' type='number' className={ah.date} value={formData.age} onChange={handleOptionChange} min={"0"} required />
+                        <input id='age' name='age' type='number' className={ah.date} value={formData.age} onChange={handlerChange} min={"0"} required />
 
                         <div className={ah.buttons}>
                             <button className={ah.button + " " + ah.add} type='submit'>Добавить</button>
