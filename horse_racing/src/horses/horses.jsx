@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react';
 import j from './horses.module.css'
 import Add from './add_horse'
+import Delete from './delete_horse'
 
 
 const Main = () => {
 
     const [horses, setHorses] = useState([]);
     const [isSorted, setIsSorted] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isModalOpen1, setIsModalOpen1] = useState(false);
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
 
     useEffect(() => {
         const fetchHorses = async () => {
-            const res = await fetch('http://localhost:1337/api/horses?order=&filter=', {
+            const res = await fetch('http://localhost:1337/api/horses?order=&filter=&owner=', {
                 method: "GET"
             });
             if (res.ok) {
@@ -22,7 +24,7 @@ const Main = () => {
         fetchHorses();
     }, []);
     const sortedHorsesWins = async () => {
-        const res = await fetch('http://localhost:1337/api/horses?order=desc&filter=', {
+        const res = await fetch('http://localhost:1337/api/horses?order=desc&filter=&owner=', {
             method: "GET"
         });
         if (res.ok) {
@@ -32,7 +34,7 @@ const Main = () => {
         }
     }
     const sortedHorsesAlph = async () => {
-        const res = await fetch('http://localhost:1337/api/horses?order=&filter=', {
+        const res = await fetch('http://localhost:1337/api/horses?order=&filter=&owner=', {
             method: "GET"
         });
         if (res.ok) {
@@ -41,19 +43,31 @@ const Main = () => {
             setIsSorted(true);
         }
     }
-    const handleCancel = () => {
-        setIsModalOpen(false);
+    const handleCancel1 = () => {
+        setIsModalOpen1(false);
     }
-    
+    const handleCancel2 = () => {
+        setIsModalOpen2(false);
+    }
+
     const addNewHorse = () => {
-        setIsModalOpen(true);
+        setIsModalOpen1(true);
+    }
+    const deleteHorse = () => {
+        setIsModalOpen2(true);
     }
     return (
         <main className={j.main}>
-            <div className={j.add}>
-                <input type='button' name={"add"} value={""} className={j.add_button} onClick={addNewHorse} />
+            <div className={j.buttons}>
+                <div className={j.add}>
+                    <input type='button' name={"add"} value={""} className={j.add_button} onClick={addNewHorse} />
+                </div>
+                <div className={j.add}>
+                    <input type='button' name={"delete"} value={""} className={j.delete_button} onClick={deleteHorse} />
+                </div>
             </div>
-            <Add isOpen={isModalOpen} onCancel={handleCancel} />
+            <Add isOpen={isModalOpen1} onCancel={handleCancel1} />
+            <Delete isOpen={isModalOpen2} onCancel={handleCancel2} />
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>

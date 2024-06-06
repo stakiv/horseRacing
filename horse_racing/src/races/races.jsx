@@ -56,7 +56,7 @@ const Main = () => {
             }
         };
         const fetchHorses = async () => {
-            const res = await fetch('http://localhost:1337/api/horses?order=&filter=names', {
+            const res = await fetch('http://localhost:1337/api/horses?order=&filter=names&owner=', {
                 method: "GET"
             });
             if (res.ok) {

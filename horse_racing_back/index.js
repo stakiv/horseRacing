@@ -6,6 +6,7 @@ const raceRouter = require("./routers/racesRouters");
 const raceItemRouter = require("./routers/raceItemsRouters");
 const ownerRouter = require('./routers/ownersRouters');
 const addHorseRouter = require('./routers/addHorseRouters');
+const deleteHorseRouter = require('./routers/deleteHorseRouter');
 
 const app = express();
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use("/api", raceRouter);
 app.use("/api", raceItemRouter);
 app.use("/api", ownerRouter);
 app.use("/api", addHorseRouter);
+app.use("/api", deleteHorseRouter);
 
 (async() => {
     try {

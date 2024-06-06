@@ -1,23 +1,25 @@
-import ah from './add_horse.module.css'
+import ah from './delete_horse.module.css'
 import { useEffect, useState } from 'react';
 
-const Add = ({ isOpen, onCancel }) => {
+const Delete = ({ isOpen, onCancel }) => {
 
     const [owners, setOwners] = useState([]);
     const [horses, setHorses] = useState([]);
+    const [selectedOwner, setSelectedOwner] = useState(null);
 
     const [formData, setFormData] = useState({
         owner: '',
         horse: '',
-        suit: '',
-        age: '',
     })
 
     let name, value;
     const handlerChange = (event) => {
         name = event.target.name;
         value = event.target.value;
-        setFormData({...formData, [name]: value})
+        setFormData({ ...formData, [name]: value })
+        if (name === 'owner') {
+            setSelectedOwner(value);
+        }
     };
     /*
     const handleOptionChange = (event) => {
@@ -31,7 +33,7 @@ const Add = ({ isOpen, onCancel }) => {
 
     useEffect(() => {
         const fetchOwners = async () => {
-            const res = await fetch('http://localhost:1337/api/owners?del=', {
+            const res = await fetch('http://localhost:1337/api/owners?del=1', {
                 method: "GET"
             });
             if (res.ok) {
@@ -39,6 +41,7 @@ const Add = ({ isOpen, onCancel }) => {
                 setOwners(data);
             }
         };
+        /*
         const fetchHorses = async () => {
             const res = await fetch(`http://localhost:1337/api/horses?order=&filter=&owner=${formData.owner}`, {
                 method: "GET"
@@ -47,40 +50,51 @@ const Add = ({ isOpen, onCancel }) => {
                 const data = await res.json()
                 setHorses(data);
             }
-        };
+        };*/
 
         fetchOwners();
-        fetchHorses();
+        //fetchHorses();
     }, []);
+
+    useEffect(() => {
+        if (selectedOwner) {
+            const fetchHorses = async () => {
+                const res = await fetch(`http://localhost:1337/api/horses?order=&filter=&owner=${selectedOwner}`, {
+                    method: "GET"
+                });
+                if (res.ok) {
+                    const data = await res.json()
+                    setHorses(data);
+                }
+            };
+            fetchHorses();
+        }
+
+    }, [selectedOwner]);
 
     const handlerSubmit = async (event) => {
         //event.preventDefault();
-        console.log(formData.id);
         console.log(formData.horse);
-        console.log(formData.suit);
-        console.log(formData.age);
-        const {owner, horse, suit, age} = formData;
-        const res = await fetch('http://localhost:1337/api/addhorse', {
-            method: 'POST',
+        const { owner, horse} = formData;
+        const res = await fetch('http://localhost:1337/api/deletehorse', {
+            method: 'DELETE',
             headers: {
                 "Accept": "application/json", "Content-Type":
-                "application/json",
+                    "application/json",
                 'Origin': 'http://localhost:3000'
             },
             body: JSON.stringify({
                 owner,
                 horse,
-                suit,
-                age,
             }),
         });
         console.log(res.status);
 
         if (res.ok) {
-            console.log("Лошадь добавлена");
+            console.log("Лошадь удалена");
         }
         else {
-            console.log("Лошадь не добавлена");
+            console.log("Лошадь не удалена");
             console.error(await res.json())
         }
     }
@@ -92,7 +106,7 @@ const Add = ({ isOpen, onCancel }) => {
         <div className={ah.window}>
             <div className={ah.main}>
                 <header className={ah.header}>
-                    Добавление новой лошади
+                    Удаление лошади
                 </header>
                 <main>
                     <form className={ah.form} onSubmit={handlerSubmit}>
@@ -101,19 +115,14 @@ const Add = ({ isOpen, onCancel }) => {
                             {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name} {h.owner_id}</option>)}
                         </select>
 
-                        <label className={ah.label} for="horse">Кличка лошади</label>
-                        <input type='text' id='horse' name='horse' className={ah.date} value={formData.horse} onChange={handlerChange} required />
 
-                        <label className={ah.label} for="suit">Масть</label>
-                        <select className={ah.date} id='suit' name='suit' value={formData.suit} onChange={handlerChange} required>
-                            {horses.map(h => <option value={h.suit} key={h.horse_id}>{h.suit}</option>)}
+                        <label className={ah.label} for="horse">Лошадь</label>
+                        <select className={ah.date} id='horse' name='horse' value={formData.horse} onChange={handlerChange} required>
+                            {horses.map(h => <option value={h.horse_id} key={h.horse_id}>{h.horse_name}</option>)}
                         </select>
 
-                        <label className={ah.label} for="age">Возраст</label>
-                        <input id='age' name='age' type='number' className={ah.date} value={formData.age} onChange={handlerChange} min={"0"} required />
-
                         <div className={ah.buttons}>
-                            <button className={ah.button + " " + ah.add} type='submit'>Добавить</button>
+                            <button className={ah.button + " " + ah.add} type='submit'>Удалить</button>
                             <button className={ah.button + " " + ah.cancel} onClick={onCancel}>Отменить</button>
                         </div>
 
@@ -124,4 +133,4 @@ const Add = ({ isOpen, onCancel }) => {
     )
 }
 
-export default Add
+export default Delete

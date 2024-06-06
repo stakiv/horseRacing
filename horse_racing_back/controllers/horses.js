@@ -19,7 +19,8 @@ exports.find_horses = app.get("", async (req, res) => {
     try {
         const sort = req.query.order;
         const filt = req.query.filter;
-        if (sort == '' && filt == '') {
+        const owner = req.query.owner
+        if (sort == '' && filt == '' && owner == '') {
             const Horse = await pool.query(
                 `SELECT "winners".horse_id, horse_name, suit, horse_age, owner_name, "wins" FROM (
                     SELECT horse_id, COUNT(*) AS "wins" FROM winners
@@ -31,7 +32,7 @@ exports.find_horses = app.get("", async (req, res) => {
                     ORDER BY horse_name ASC`
             )
             result = Horse["rows"]
-        } else if (filt == '') {
+        } else if (filt == '' && owner == '') {
             const Horse = await pool.query(
                 `SELECT "winners".horse_id, horse_name, suit, horse_age, owner_name, "wins" FROM (
                     SELECT horse_id, COUNT(*) AS "wins" FROM winners
@@ -43,10 +44,17 @@ exports.find_horses = app.get("", async (req, res) => {
                     ORDER BY wins ${sort}, horse_name ASC`
             )
             result = Horse["rows"]
-        } else if (sort == '') {
+        } else if (sort == '' && owner == '') {
             const Horse = await pool.query(
                 `SELECT horse_id, horse_name, suit FROM horses
                 ORDER BY horse_name ASC`
+            )
+            result = Horse["rows"]
+        } else if (sort == '' && filt == '') { // для формы удаления лошади
+            const Horse = await pool.query(
+                `SELECT horse_id, horse_name FROM horses
+                JOIN owners ON owners.owner_id = horses.owner_id
+                WHERE horses.owner_id = ${owner}`
             )
             result = Horse["rows"]
         }

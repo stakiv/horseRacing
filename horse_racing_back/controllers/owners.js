@@ -16,13 +16,27 @@ app.use((req, res, next) => {
 });
 
 exports.find_owners = app.get("", async (req, res) => {
+    
     try {
-
-        const Owner = await pool.query(
-            `SELECT owner_id, owner_name FROM owners
-            ORDER BY owner_name`
-        )
-        result = Owner['rows']
+        const owner_d = req.query.del;
+        if (owner_d == '') {
+            const Owner = await pool.query(
+                `SELECT owner_id, owner_name FROM owners
+                ORDER BY owner_name`
+            )
+            result = Owner['rows']
+        }
+        else {
+            const Owner = await pool.query(
+                `SELECT owners.owner_id, owner_name FROM owners
+                JOIN horses ON horses.owner_id = owners.owner_id
+                GROUP BY owners.owner_id, owner_name
+                ORDER BY owner_name ASC`
+            )
+            result = Owner['rows']
+        }
+        
+        
         res.json(result)
     }
     catch (err) {
