@@ -1,5 +1,7 @@
 import ah from './delete_horse.module.css'
 import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
 
 const Delete = ({ isOpen, onCancel }) => {
 
@@ -8,27 +10,27 @@ const Delete = ({ isOpen, onCancel }) => {
     const [selectedOwner, setSelectedOwner] = useState(null);
 
     const [formData, setFormData] = useState({
-        owner: '',
         horse: '',
     })
 
-    let name, value;
     const handlerChange = (event) => {
+        const {name, value} = event.target;
+        /*
         name = event.target.name;
-        value = event.target.value;
-        setFormData({ ...formData, [name]: value })
+        value = event.target.value;*/
+        
         if (name === 'owner') {
             setSelectedOwner(value);
+            const horsesForOwner = horses.filter(h => h.owner_id === value);
+            if (horsesForOwner.length == 1) {
+                setFormData((prevformData) => ({...prevformData, horse:horsesForOwner.horse_id}));
+            }
+        }
+        else {
+            setFormData((prevformData) => ({ ...prevformData, [name]: value }));
         }
     };
-    /*
-    const handleOptionChange = (event) => {
-        const { name, val } = event.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: val,
-        }));
-    };*/
+    
 
 
     useEffect(() => {
@@ -41,19 +43,8 @@ const Delete = ({ isOpen, onCancel }) => {
                 setOwners(data);
             }
         };
-        /*
-        const fetchHorses = async () => {
-            const res = await fetch(`http://localhost:1337/api/horses?order=&filter=&owner=${formData.owner}`, {
-                method: "GET"
-            });
-            if (res.ok) {
-                const data = await res.json()
-                setHorses(data);
-            }
-        };*/
-
+        
         fetchOwners();
-        //fetchHorses();
     }, []);
 
     useEffect(() => {
@@ -75,18 +66,18 @@ const Delete = ({ isOpen, onCancel }) => {
     const handlerSubmit = async (event) => {
         //event.preventDefault();
         console.log(formData.horse);
-        const { owner, horse} = formData;
-        const res = await fetch('http://localhost:1337/api/deletehorse', {
+        if (!formData.horse || formData.horse == '') {
+            console.log('выбкрите тошадь');
+            return;
+        }
+        const horseid = formData.horse;
+        const res = await fetch(`http://localhost:1337/api/deletehorse?horse=${horseid}`, {
             method: 'DELETE',
             headers: {
                 "Accept": "application/json", "Content-Type":
                     "application/json",
                 'Origin': 'http://localhost:3000'
             },
-            body: JSON.stringify({
-                owner,
-                horse,
-            }),
         });
         console.log(res.status);
 
@@ -111,13 +102,14 @@ const Delete = ({ isOpen, onCancel }) => {
                 <main>
                     <form className={ah.form} onSubmit={handlerSubmit}>
                         <label className={ah.label} for="owner">Владелец</label>
-                        <select className={ah.date} id='owner' name='owner' value={formData.owner} onChange={handlerChange} required>
+                        <select className={ah.date} id='owner' name='owner' onChange={handlerChange} required>
                             {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name} {h.owner_id}</option>)}
                         </select>
 
 
                         <label className={ah.label} for="horse">Лошадь</label>
-                        <select className={ah.date} id='horse' name='horse' value={formData.horse} onChange={handlerChange} required>
+                        <select className={ah.date} id='horse' name='horse' value={horses.length == 1 ? horses.horse_id : formData.horse} onChange={handlerChange} required>
+                            <option value={''}> </option>
                             {horses.map(h => <option value={h.horse_id} key={h.horse_id}>{h.horse_name}</option>)}
                         </select>
 
