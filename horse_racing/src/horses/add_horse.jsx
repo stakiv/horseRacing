@@ -5,7 +5,7 @@ const Add = ({ isOpen, onCancel }) => {
 
     const [owners, setOwners] = useState([]);
     const [horses, setHorses] = useState([]);
-
+    const [suits, setSuits] = useState([]);
     const [formData, setFormData] = useState({
         owner: '',
         horse: '',
@@ -17,7 +17,7 @@ const Add = ({ isOpen, onCancel }) => {
     const handlerChange = (event) => {
         name = event.target.name;
         value = event.target.value;
-        setFormData({...formData, [name]: value})
+        setFormData({ ...formData, [name]: value })
     };
     /*
     const handleOptionChange = (event) => {
@@ -46,6 +46,8 @@ const Add = ({ isOpen, onCancel }) => {
             if (res.ok) {
                 const data = await res.json()
                 setHorses(data);
+                const uniqueSuits = [...new Set(data.map(h => h.suit))];
+                setSuits(uniqueSuits.map(suit => ({ suit })));
             }
         };
 
@@ -54,17 +56,21 @@ const Add = ({ isOpen, onCancel }) => {
     }, []);
 
     const handlerSubmit = async (event) => {
+        if (!formData.suit || formData.suit == '' || formData.owner == '' || !formData.owner) {
+            console.log('выберите все необходимые данные');
+            return;
+        }
         //event.preventDefault();
         console.log(formData.id);
         console.log(formData.horse);
         console.log(formData.suit);
         console.log(formData.age);
-        const {owner, horse, suit, age} = formData;
+        const { owner, horse, suit, age } = formData;
         const res = await fetch('http://localhost:1337/api/addhorse', {
             method: 'POST',
             headers: {
                 "Accept": "application/json", "Content-Type":
-                "application/json",
+                    "application/json",
                 'Origin': 'http://localhost:3000'
             },
             body: JSON.stringify({
@@ -88,6 +94,7 @@ const Add = ({ isOpen, onCancel }) => {
     if (!isOpen) {
         return null;
     }
+
     return (
         <div className={ah.window}>
             <div className={ah.main}>
@@ -98,6 +105,7 @@ const Add = ({ isOpen, onCancel }) => {
                     <form className={ah.form} onSubmit={handlerSubmit}>
                         <label className={ah.label} for="owner">Владелец</label>
                         <select className={ah.date} id='owner' name='owner' value={formData.owner} onChange={handlerChange} required>
+                            <option value={''}> </option>
                             {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name} {h.owner_id}</option>)}
                         </select>
 
@@ -106,7 +114,8 @@ const Add = ({ isOpen, onCancel }) => {
 
                         <label className={ah.label} for="suit">Масть</label>
                         <select className={ah.date} id='suit' name='suit' value={formData.suit} onChange={handlerChange} required>
-                            {horses.map(h => <option value={h.suit} key={h.horse_id}>{h.suit}</option>)}
+                            <option value={''}> </option>
+                            {suits.map((h, index) => <option value={h.suit} key={index}>{h.suit}</option>)}
                         </select>
 
                         <label className={ah.label} for="age">Возраст</label>

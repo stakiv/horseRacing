@@ -19,21 +19,41 @@ exports.find_horses = app.get("", async (req, res) => {
     try {
         const sort = req.query.order;
         const filt = req.query.filter;
-        const owner = req.query.owner
+        const owner = req.query.owner;
         if (sort == '' && filt == '' && owner == '') {
             const Horse = await pool.query(
-                `SELECT "winners".horse_id, horse_name, suit, horse_age, owner_name, "wins" FROM (
+                `SELECT h.horse_id, h.horse_name, h.suit, h.horse_age, o.owner_name, COALESCE(w.wins, 0) AS wins
+                FROM horses h
+                JOIN owners o ON h.owner_id = o.owner_id
+                FULL OUTER JOIN (
+                    SELECT horse_id, COUNT(*) AS "wins" FROM winners
+                    JOIN participants ON winners.participant_id = participants.participant_id
+                    GROUP BY horse_id
+                ) w ON h.horse_id = w.horse_id
+                ORDER BY h.horse_name ASC;`
+/*
+                    `SELECT "winners".horse_id, horse_name, suit, horse_age, owner_name, "wins" FROM (
                     SELECT horse_id, COUNT(*) AS "wins" FROM winners
                     JOIN participants ON winners.participant_id = participants.participant_id
                     GROUP BY horse_id
                     ) AS "winners"
                     JOIN horses ON horses.horse_id = "winners".horse_id
                     JOIN owners ON horses.owner_id = owners.owner_id
-                    ORDER BY horse_name ASC`
+                    ORDER BY horse_name ASC`*/
             )
             result = Horse["rows"]
         } else if (filt == '' && owner == '') {
             const Horse = await pool.query(
+                `SELECT h.horse_id, h.horse_name, h.suit, h.horse_age, o.owner_name, COALESCE(w.wins, 0) AS wins
+                FROM horses h
+                JOIN owners o ON h.owner_id = o.owner_id
+                FULL OUTER JOIN (
+                    SELECT horse_id, COUNT(*) AS "wins" FROM winners
+                    JOIN participants ON winners.participant_id = participants.participant_id
+                    GROUP BY horse_id
+                ) w ON h.horse_id = w.horse_id
+                ORDER BY wins ${sort}, horse_name ASC;`
+                /*
                 `SELECT "winners".horse_id, horse_name, suit, horse_age, owner_name, "wins" FROM (
                     SELECT horse_id, COUNT(*) AS "wins" FROM winners
                     JOIN participants ON winners.participant_id = participants.participant_id
@@ -41,7 +61,7 @@ exports.find_horses = app.get("", async (req, res) => {
                     ) AS "winners"
                     JOIN horses ON horses.horse_id = "winners".horse_id
                     JOIN owners ON horses.owner_id = owners.owner_id
-                    ORDER BY wins ${sort}, horse_name ASC`
+                    ORDER BY wins ${sort}, horse_name ASC`*/
             )
             result = Horse["rows"]
         } else if (sort == '' && owner == '') {
@@ -50,7 +70,7 @@ exports.find_horses = app.get("", async (req, res) => {
                 ORDER BY horse_name ASC`
             )
             result = Horse["rows"]
-        } else if (sort == '' && filt == '') { // для формы удаления лошади
+        } else if (sort == '' && filt == '') { // для формы удаления и удаления лошади
             const Horse = await pool.query(
                 `SELECT horse_id, horse_name FROM horses
                 JOIN owners ON owners.owner_id = horses.owner_id
