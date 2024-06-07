@@ -6,13 +6,18 @@ import { useEffect, useState } from 'react'
 
 const Main = () => {
 
-    const [races, setRaces] = useState([]);
+    const [optionRacetrack, setOptionRacetrack] = useState('');
     const [optionDate, setOptionDate] = useState('');
     const [optionHorse, setOptionHorse] = useState('');
     const [optionJockey, setOptionJockey] = useState('');
+    const [racetracks, setRacetracks] = useState([]);
+    const [races, setRaces] = useState([]);
     const [horses, setHorses] = useState([]);
     const [jockeys, setJockeys] = useState([]);
 
+    const handleOptionChangeRacetrack = ({ target: { value } }) => {
+        setOptionRacetrack(value)
+    };
     const handleOptionChangeDate = ({ target: { value } }) => {
         setOptionDate(value)
     };
@@ -24,9 +29,21 @@ const Main = () => {
     }
 
     useEffect(() => {
+        const fetchRacetracks = async () => {
+            const res = await fetch('http://localhost:1337/api/racetracks', {
+                method: "GET"
+            });
+            if (res.ok) {
+                const data = await res.json()
+                setRacetracks(data);
+            }
+        };
         const fetchRaces = async () => {
             let url = 'http://localhost:1337/api/races?';
-            if (optionHorse || optionDate || optionJockey) {
+            if (optionHorse || optionDate || optionJockey || optionRacetrack) {
+                if (optionRacetrack) {
+                    url += `racetrack=${optionRacetrack}`
+                } else { url += `racetrack=` }
                 if (optionDate) {
                     url += `date=${optionDate}`
                 } else { url += `date=` }
@@ -38,9 +55,10 @@ const Main = () => {
                 } else { url += `&jockey=` }
             }
             else {
-                url += `date=&horse=&jockey=`
+                url += `racetrack=&date=&horse=&jockey=`
             }
             console.log(url);
+            console.log(optionRacetrack);
             console.log(optionHorse);
             console.log(optionDate);
             console.log(optionJockey);
@@ -74,16 +92,25 @@ const Main = () => {
             }
         };
 
+        fetchRacetracks();
         fetchRaces();
         fetchHorses();
         fetchJockeys();
-    }, [optionDate, optionHorse, optionJockey]);
+    }, [optionDate, optionHorse, optionJockey, optionRacetrack]);
 
     return (
 
         <main className={m.main}>
 
             <div className={m.filters}>
+            <div className={m.option}>
+                    <div>Ипподром</div>
+                    <select className={m.date} value={optionRacetrack} onChange={handleOptionChangeRacetrack}>
+                        <option value={""}>Все</option>
+                        {racetracks.map(h => <option key={h.racetrack_id} value={h.racetrack_id}>{h.racetrack_name}</option>)}
+                    </select>
+                </div>
+
                 <div className={m.option}><div>Дата</div>
                     <input type='date' value={optionDate} className={m.date} onChange={handleOptionChangeDate} /></div>
 
