@@ -29,15 +29,7 @@ const Main = () => {
     }
 
     useEffect(() => {
-        const fetchRacetracks = async () => {
-            const res = await fetch('http://localhost:1337/api/racetracks', {
-                method: "GET"
-            });
-            if (res.ok) {
-                const data = await res.json()
-                setRacetracks(data);
-            }
-        };
+        
         const fetchRaces = async () => {
             let url = 'http://localhost:1337/api/races?';
             if (optionHorse || optionDate || optionJockey || optionRacetrack) {
@@ -45,8 +37,8 @@ const Main = () => {
                     url += `racetrack=${optionRacetrack}`
                 } else { url += `racetrack=` }
                 if (optionDate) {
-                    url += `date=${optionDate}`
-                } else { url += `date=` }
+                    url += `&date=${optionDate}`
+                } else { url += `&date=` }
                 if (optionHorse) {
                     url += `&horse=${optionHorse}`
                 } else { url += `&horse=` }
@@ -71,6 +63,15 @@ const Main = () => {
                 const data = await res.json()
                 setRaces(data);
                 
+            }
+        };
+        const fetchRacetracks = async () => {
+            const res = await fetch('http://localhost:1337/api/racetracks', {
+                method: "GET"
+            });
+            if (res.ok) {
+                const data = await res.json()
+                setRacetracks(data);
             }
         };
         const fetchHorses = async () => {
