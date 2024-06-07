@@ -89,21 +89,22 @@ exports.find_races = app.get("", async (req, res) => {
                 )
                 result = Race['rows']
             }
-            else if (horse == '' && jockey == '' && racetrack == '') {
-                const Race = await pool.query(
-                    `SELECT races.race_id, name FROM races
+        }
+        else if (horse == '' && jockey == '' && racetrack == '') {
+            const Race = await pool.query(
+                `SELECT races.race_id, name FROM races
                     JOIN participants ON participants.race_id = races.race_id
                     JOIN horses ON participants.horse_id = horses.horse_id
                     JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
                     WHERE races.date = '${date}'
                     GROUP BY races.race_id`
-                )
-                result = Race['rows']
-            }
-            else if (jockey == '') {
-                if (horse == '') {
-                    const Race = await pool.query(
-                        `SELECT races.race_id, name FROM races
+            )
+            result = Race['rows']
+        }
+        else if (jockey == '') {
+            if (horse == '') {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
                         JOIN participants ON participants.race_id = races.race_id
                         JOIN horses ON participants.horse_id = horses.horse_id
                         JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
@@ -111,12 +112,12 @@ exports.find_races = app.get("", async (req, res) => {
                         WHERE races.date = '${date}'
                         AND races.racetrack_id = ${racetrack}
                         GROUP BY races.race_id`
-                    )
-                    result = Race['rows']
-                }
-                else if (racetrack == '') {
-                    const Race = await pool.query(
-                        `SELECT races.race_id, name FROM races
+                )
+                result = Race['rows']
+            }
+            else if (racetrack == '') {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
                         JOIN participants ON participants.race_id = races.race_id
                         JOIN horses ON participants.horse_id = horses.horse_id
                         JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
@@ -124,12 +125,12 @@ exports.find_races = app.get("", async (req, res) => {
                         WHERE races.date = '${date}'
                         AND horses.horse_name = '${horse}'
                         GROUP BY races.race_id`
-                    )
-                    result = Race['rows']
-                }
-                else if (date == '') {
-                    const Race = await pool.query(
-                        `SELECT races.race_id, name FROM races
+                )
+                result = Race['rows']
+            }
+            else if (date == '') {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
                         JOIN participants ON participants.race_id = races.race_id
                         JOIN horses ON participants.horse_id = horses.horse_id
                         JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
@@ -137,142 +138,134 @@ exports.find_races = app.get("", async (req, res) => {
                         WHERE horses.horse_name = '${horse}'
                         AND races.racetrack_id = ${racetrack}
                         GROUP BY races.race_id`
-                    )
-                    result = Race['rows']
-                }
-                
-            }
-            else {
-                const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE jockey_name = '${jockey}'
-                    AND horse_name = '${horse}'`
-                    /*
-                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE jockey_name = '${jockey}'
-                    AND horse_name = '${horse}'`*/
                 )
                 result = Race['rows']
-            }
-        }
-        else if (horse == '' ) {
-            if (jockey == '') {
+            } else {
                 const Race = await pool.query(
                     `SELECT races.race_id, name FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    GROUP BY races.race_id`
-                    /*
-                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    GROUP BY races.race_id, name, horse_name, jockey_name, time`*/
+                        JOIN participants ON participants.race_id = races.race_id
+                        JOIN horses ON participants.horse_id = horses.horse_id
+                        JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                        JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                        WHERE horses.horse_name = '${horse}'
+                        AND races.racetrack_id = ${racetrack}
+						AND races.date = '${date}' 
+                        GROUP BY races.race_id`
+                )
+                result = Race['rows']
+            }
+
+        }
+        else if (horse == '') {
+            if (racetrack == '') {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
+                        JOIN participants ON participants.race_id = races.race_id
+                        JOIN horses ON participants.horse_id = horses.horse_id
+                        JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                        JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                        WHERE races.date = '${date}'
+                        AND jockeys.jockey_name = '${jockey}'
+                        GROUP BY races.race_id`
+                )
+                result = Race['rows']
+            }
+            else if (date == '') {
+
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
+                            JOIN participants ON participants.race_id = races.race_id
+                            JOIN horses ON participants.horse_id = horses.horse_id
+                            JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                            JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                            WHERE jockeys.jockey_name = '${jockey}'
+                            AND races.racetrack_id = ${racetrack}
+                            GROUP BY races.race_id`
                 )
                 result = Race['rows']
             }
             else {
                 const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    AND jockey_name = '${jockey}'`
-                    /*
-                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    AND jockey_name = '${jockey}`*/
+                    `SELECT races.race_id, name FROM races
+                            JOIN participants ON participants.race_id = races.race_id
+                            JOIN horses ON participants.horse_id = horses.horse_id
+                            JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                            JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                            WHERE races.date = '${date}'
+                            AND races.racetrack_id = ${racetrack}
+                            AND jockeys.jockey_name = '${jockey}' 
+                            GROUP BY races.race_id`
                 )
                 result = Race['rows']
             }
-            
+
+        }
+
+
+        else if (date == '') {
+            if (racetrack == '') {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
+                        JOIN participants ON participants.race_id = races.race_id
+                        JOIN horses ON participants.horse_id = horses.horse_id
+                        JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                        JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                        WHERE horses.horse_name = '${horse}'
+                        AND jockeys.jockey_name = '${jockey}'
+                        GROUP BY races.race_id`
+                )
+                result = Race['rows']
+            }
+            else {
+                const Race = await pool.query(
+                    `SELECT races.race_id, name FROM races
+                            JOIN participants ON participants.race_id = races.race_id
+                            JOIN horses ON participants.horse_id = horses.horse_id
+                            JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                            JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                            WHERE horses.horse_name = '${horse}'
+                            AND races.racetrack_id = ${racetrack}
+                            AND jockeys.jockey_name = '${jockey}' 
+                            GROUP BY races.race_id`
+                )
+                result = Race['rows']
+            }
+        }
+
+        else if (racetrack == '') {
+            const Race = await pool.query(
+                `SELECT races.race_id, name FROM races
+                        JOIN participants ON participants.race_id = races.race_id
+                        JOIN horses ON participants.horse_id = horses.horse_id
+                        JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                        JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                        WHERE horses.horse_name = '${horse}'
+                        AND races.date = ${date}
+                        AND jockeys.jockey_name = '${jockey}' 
+                        GROUP BY races.race_id`
+            )
+            result = Race['rows']
         }
         else {
-            if (date == '') {
-                const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE jockey_name = '${jockey}'
-                    AND horse_name = '${horse}'`
-                    /*
-                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE jockey_name = '${jockey}'
-                    AND horse_name = '${horse}'`*/
-                )
-                result = Race['rows']
-            }
-            else if (jockey == '') {
-                const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    WHERE races.date = '${date}'
-                    AND horse_name = '${horse}'`
-                    /*
-                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    AND horse_name = '${horse}'`*/
-                )
-                result = Race['rows']
-            }
-            else if (horse == '') {
-                const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    AND jockey_name = '${jockey}`
-                    /*
-                    `SELECT races.race_id, name, horse_name, jockey_name, time FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    WHERE races.date = '${date}'
-                    AND jockey_name = '${jockey}`*/
-                )
-                result = Race['rows']
-            }
-            else {
-                const Race = await pool.query(
-                    `SELECT races.race_id, name, date FROM races
-                    JOIN participants ON participants.race_id = races.race_id
-                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
-                    JOIN horses ON participants.horse_id = horses.horse_id
-                    WHERE races.date = '${date}'
-                    AND horse_name = '${horse}'
-                    AND jockey_name = '${jockey}'`
-                )
-                result = Race['rows']
-            }
+            const Race = await pool.query(
+                `SELECT races.race_id, name FROM races
+                        JOIN participants ON participants.race_id = races.race_id
+                        JOIN horses ON participants.horse_id = horses.horse_id
+                        JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                        JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
+                        WHERE horses.horse_name = '${horse}'
+                        AND races.date = '${date}'
+                        AND jockeys.jockey_name = '${jockey}' 
+						AND races.racetrack_id = ${racetrack}
+                        GROUP BY races.race_id`
+            )
+            result = Race['rows']
         }
-
-        res.json(result)
-
     }
     catch (err) {
-        res.status(400).json({ message: "" });
-        console.error(err)
-    };
+    res.status(400).json({ message: "" });
+    console.error(err)
+};
 });
 
 /*
