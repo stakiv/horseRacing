@@ -20,36 +20,61 @@ exports.find_races = app.get("", async (req, res) => {
         const horse = req.query.horse;
         const date = req.query.date;
         const jockey = req.query.jockey;
+        let izm = 0;
 
-        let query = `SELECT races.race_id, name FROM races`;
+        let query = `SELECT races.race_id, name FROM races
+        JOIN participants ON participants.race_id = races.race_id
+                    JOIN horses ON participants.horse_id = horses.horse_id
+                    JOIN jockeys ON participants.jockey_id = jockeys.jockey_id
+                    JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id`;
         let params = [];
 
-        if (racetrack) {
-            query += ` JOIN racetrack ON races.racetrack_id = racetrack.racetrack_id`;
+        if (racetrack != '') {
+            if (izm == 0) {
+                query += ` WHERE racetrack.racetrack_name = $${params.length + 1}`;
+                izm = 1;
+            }
+            else {
+                query += ` AND racetrack.racetrack_name = $${params.length + 1}`;
+            }
             params.push(racetrack);
         }
-
-        if (date) {
-            query += ` WHERE races.date = $1`;
+        if (date != '') {
+            if (izm == 0) {
+                query += ` WHERE races.date = $${params.length + 1}`;
+                izm = 1;
+            }
+            else {
+                query += ` AND races.date = $${params.length + 1}`;
+            }
             params.push(date);
         }
-
-        if (horse) {
-            query += ` JOIN horses ON horses.horse_id = participants.horse_id`;
-            query += ` WHERE horses.horse_name = $1`;
+        if (horse != '') {
+            if (izm == 0) {
+                query += ` WHERE horses.horse_name = $${params.length + 1}`;
+                izm = 1;
+            }
+            else {
+                query += ` AND horses.horse_name = $${params.length + 1}`;
+            }
             params.push(horse);
         }
-
-        if (jockey) {
-            query += ` JOIN jockeys ON jockeys.jockey_id = participants.jockey_id`;
-            query += ` WHERE jockeys.jockey_name = $1`;
+        if (jockey != '') {
+            if (izm == 0) {
+                query += ` WHERE jockeys.jockey_name = $${params.length + 1}`;
+                izm = 1;
+            }
+            else {
+                query += ` AND jockeys.jockey_name = $${params.length + 1}`;
+            }
             params.push(jockey);
         }
 
         query += ` GROUP BY races.race_id`;
 
-        const result = await pool.query(query, params);
-        res.json(result.rows);
+        const Race = await pool.query(query, params);
+        result = Race['rows']
+        res.json(result);
     } catch (err) {
         res.status(400).json({ message: "" });
         console.error(err);
@@ -172,7 +197,7 @@ exports.find_races = app.get("", async (req, res) => {
                         JOIN racetrack ON racetrack.racetrack_id = races.racetrack_id
                         WHERE horses.horse_name = '${horse}'
                         AND races.racetrack_id = ${racetrack}
-						AND races.date = '${date}' 
+                        AND races.date = '${date}' 
                         GROUP BY races.race_id`
                 )
                 result = Race['rows']
@@ -279,7 +304,7 @@ exports.find_races = app.get("", async (req, res) => {
                         WHERE horses.horse_name = '${horse}'
                         AND races.date = '${date}'
                         AND jockeys.jockey_name = '${jockey}' 
-						AND races.racetrack_id = ${racetrack}
+                        AND races.racetrack_id = ${racetrack}
                         GROUP BY races.race_id`
             )
             result = Race['rows']
