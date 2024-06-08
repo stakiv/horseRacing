@@ -108,7 +108,7 @@ const Main = () => {
                     <div>Ипподром</div>
                     <select className={m.date} value={optionRacetrack} onChange={handleOptionChangeRacetrack}>
                         <option value={""}>Все</option>
-                        {racetracks.map(h => <option key={h.racetrack_id} value={h.racetrack_id}>{h.racetrack_name}</option>)}
+                        {racetracks.map(h => <option key={h.racetrack_id} value={h.racetrack_name}>{h.racetrack_name}</option>)}
                     </select>
                 </div>
 

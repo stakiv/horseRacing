@@ -7,7 +7,6 @@ const main = () => {
     return (
         <div className={m.all}>
             <div className={m.main}>
-                <Ippodrom />
                 <Tabs />
             </div>
 
