@@ -131,7 +131,9 @@ const Main = () => {
                     </select>
                 </div>
             </div>
+            <div className={m.num_races}>Количество заездов: {races.length}</div>
             <div className={m.items}>
+                
                 {races.map((race) => (
                     
                     <Race race_id={race['race_id']} race_name={race['name']} date={race['date']}/>

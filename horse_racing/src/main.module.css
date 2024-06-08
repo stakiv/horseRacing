@@ -2,9 +2,14 @@
     background-color: #FFF7EC;
     padding: 0;
     margin: 0;
+    border: none;
+}
+.marg {
+    background-color: #FFF7EC;
+    margin-top: 3rem;
 }
 .main {
     text-align: center;
     margin: 1rem 5rem;
-    
+    background-color: #FFF7EC;
 }

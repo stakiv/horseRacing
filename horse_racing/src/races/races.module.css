@@ -14,6 +14,11 @@
     /*position: fixed;*/
     
 }
+.num_races {
+    margin-top: 2rem;
+    font-size: 1.2em;
+    font-weight: 700;
+}
 .items {
     margin-top: 1rem;
     display: grid;
