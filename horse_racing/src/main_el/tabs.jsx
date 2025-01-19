@@ -6,7 +6,7 @@ import Jockeys from '../jockeys/jockeys';
 
 const Tabs = () => {
     const [activeTab, setActiveTab] = useState("races")
-    const handleRaces = () => {
+    /*const handleRaces = () => {
         setActiveTab("races");
     };
     const handleHorses = () => {
@@ -14,6 +14,9 @@ const Tabs = () => {
     };
     const handleJockeys = () => {
         setActiveTab("jockeys");
+    };*/
+    const handleTabClick = (tabName) => {
+        setActiveTab(tabName);
     };
     const styles = {
         active: {
@@ -24,19 +27,21 @@ const Tabs = () => {
     return (
         <div>
             <ul className={t.tabs}>
-                <div className={t.option}>
-                    <li className={activeTab === "races" ? "active" : ""}
-                        onClick={handleRaces}
+                <div className={`${t.option} ${activeTab === "races" ? t.active : ""}`} onClick={() => handleTabClick("races")}>
+                    <li //className={activeTab === "races" ? "active" : ""}
+                        //onClick={handleRaces}
                         style={{ listStyle: "none", cursor: 'pointer' }}>Заезды</li>
                 </div>
-                <div className={t.option}>
-                    <li className={activeTab === "horses" ? "active" : ""}
-                        onClick={handleHorses}
+                <div className={`${t.option} ${activeTab === "horses" ? t.active : ""}`}
+                    onClick={() => handleTabClick("horses")}>
+                    <li //className={activeTab === "horses" ? "active" : ""}
+                        //onClick={handleHorses}
                         style={{ listStyle: "none", cursor: 'pointer' }}>Лошади</li>
                 </div>
-                <div className={t.option}>
-                    <li className={activeTab === "jockeys" ? "active" : ""}
-                        onClick={handleJockeys}
+                <div className={`${t.option} ${activeTab === "jockeys" ? t.active : ""}`}
+                    onClick={() => handleTabClick("jockeys")}>
+                    <li //className={activeTab === "jockeys" ? "active" : ""}
+                        //onClick={handleJockeys}
                         style={{ listStyle: "none", cursor: 'pointer' }}>Жокеи</li>
                 </div>
             </ul>

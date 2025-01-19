@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import j from './jockeys.module.css'
-
+import j from './jockeys.module.css';
+import Add from '../horses/add_horse';
+import Delete from '../horses/delete_horse';
 
 const Main = () => {
 
     const [jockeys, setJockeys] = useState([]);
     const [isSorted, setIsSorted] = useState([]);
+    const [isModalOpen1, setIsModalOpen1] = useState(false);
+    const [isModalOpen2, setIsModalOpen2] = useState(false);
 
     useEffect(() => {
         const fetchJockeys = async () => {
@@ -39,8 +42,31 @@ const Main = () => {
             setIsSorted(true);
         }
     }
+    const handleCancel1 = () => {
+        setIsModalOpen1(false);
+    }
+    const handleCancel2 = () => {
+        setIsModalOpen2(false);
+    }
+
+    const addNewJockey = () => {
+        setIsModalOpen1(true);
+    }
+    const deleteJockey = () => {
+        setIsModalOpen2(true);
+    }
     return (
         <main className={j.main}>
+        <div className={j.buttons}>
+                <div className={j.add}>
+                    <input type='button' name={"add"} value={""} className={j.add_button} onClick={addNewJockey} />
+                </div>
+                <div className={j.add}>
+                    <input type='button' name={"delete"} value={""} className={j.delete_button} onClick={deleteJockey} />
+                </div>
+            </div>
+            <Add isOpen={isModalOpen1} onCancel={handleCancel1} nameType="jockey"/>
+            <Delete isOpen={isModalOpen2} onCancel={handleCancel2} nameType="jockey"/>
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>

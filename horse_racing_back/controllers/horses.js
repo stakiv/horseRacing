@@ -16,6 +16,7 @@ app.use((req, res, next) => {
 });
 
 exports.find_horses = app.get("", async (req, res) => {
+    let result;
     try {
         const sort = req.query.order;
         const filt = req.query.filter;

@@ -1,7 +1,10 @@
 import ah from './add_horse.module.css'
 import { useEffect, useState } from 'react';
 
-const Add = ({ isOpen, onCancel }) => {
+const Add = ({ isOpen, onCancel }, props) => {
+
+    const nameType = props.nameType;
+    console.log(nameType)
 
     const [owners, setOwners] = useState([]);
     const [horses, setHorses] = useState([]);
@@ -95,42 +98,74 @@ const Add = ({ isOpen, onCancel }) => {
         return null;
     }
 
-    return (
-        <div className={ah.window}>
-            <div className={ah.main}>
-                <header className={ah.header}>
-                    Добавление новой лошади
-                </header>
-                <main>
-                    <form className={ah.form} onSubmit={handlerSubmit}>
-                        <label className={ah.label} for="owner">Владелец</label>
-                        <select className={ah.date} id='owner' name='owner' value={formData.owner} onChange={handlerChange} required>
-                            <option value={''}> </option>
-                            {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name} {h.owner_id}</option>)}
-                        </select>
+    if (nameType === "horse") {
+        return (
+            <div className={ah.window}>
+                <div className={ah.main}>
+                    <header className={ah.header}>
+                        Добавление новой лошади
+                    </header>
+                    <main>
+                        <form className={ah.form} onSubmit={handlerSubmit}>
+                            <label className={ah.label} for="owner">Владелец</label>
+                            <select className={ah.date} id='owner' name='owner' value={formData.owner} onChange={handlerChange} required>
+                                <option value={''}> </option>
+                                {owners.map(h => <option value={h.owner_id} key={h.owner_id}>{h.owner_name} {h.owner_id}</option>)}
+                            </select>
 
-                        <label className={ah.label} for="horse">Кличка лошади</label>
-                        <input type='text' id='horse' name='horse' className={ah.date} value={formData.horse} onChange={handlerChange} required />
+                            <label className={ah.label} for="horse">Кличка лошади</label>
+                            <input type='text' id='horse' name='horse' className={ah.date} value={formData.horse} onChange={handlerChange} required />
 
-                        <label className={ah.label} for="suit">Масть</label>
-                        <select className={ah.date} id='suit' name='suit' value={formData.suit} onChange={handlerChange} required>
-                            <option value={''}> </option>
-                            {suits.map((h, index) => <option value={h.suit} key={index}>{h.suit}</option>)}
-                        </select>
+                            <label className={ah.label} for="suit">Масть</label>
+                            <select className={ah.date} id='suit' name='suit' value={formData.suit} onChange={handlerChange} required>
+                                <option value={''}> </option>
+                                {suits.map((h, index) => <option value={h.suit} key={index}>{h.suit}</option>)}
+                            </select>
 
-                        <label className={ah.label} for="age">Возраст</label>
-                        <input id='age' name='age' type='number' className={ah.date} value={formData.age} onChange={handlerChange} min={"0"} required />
+                            <label className={ah.label} for="age">Возраст</label>
+                            <input id='age' name='age' type='number' className={ah.date} value={formData.age} onChange={handlerChange} min={"0"} required />
 
-                        <div className={ah.buttons}>
-                            <button className={ah.button + " " + ah.add} type='submit'>Добавить</button>
-                            <button className={ah.button + " " + ah.cancel} onClick={onCancel}>Отменить</button>
-                        </div>
+                            <div className={ah.buttons}>
+                                <button className={ah.button + " " + ah.add} type='submit'>Добавить</button>
+                                <button className={ah.button + " " + ah.cancel} onClick={onCancel}>Отменить</button>
+                            </div>
 
-                    </form>
-                </main>
+                        </form>
+                    </main>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+    else if (nameType === "jockey"){
+
+        return (
+            <div className={ah.window}>
+                <div className={ah.main}>
+                    <header className={ah.header}>
+                        Добавление нового жокея
+                    </header>
+                    <main>
+                        <form className={ah.form} onSubmit={handlerSubmit}>
+
+                            <label className={ah.label} for="jockey">ФИО жокея</label>
+                            <input type='text' id='jockey' name='jockey' className={ah.date} value={formData.horse} onChange={handlerChange} required />
+
+                            <label className={ah.label} for="age">Возраст</label>
+                            <input id='age' name='age' type='number' className={ah.date} value={formData.age} onChange={handlerChange} min={"10"} required />
+
+                            <div className={ah.buttons}>
+                                <button className={ah.button + " " + ah.add} type='submit'>Добавить</button>
+                                <button className={ah.button + " " + ah.cancel} onClick={onCancel}>Отменить</button>
+                            </div>
+
+                        </form>
+                    </main>
+                </div>
+            </div>
+        )
+
+    }
+
 }
 
 export default Add

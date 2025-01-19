@@ -66,8 +66,8 @@ const Main = () => {
                     <input type='button' name={"delete"} value={""} className={j.delete_button} onClick={deleteHorse} />
                 </div>
             </div>
-            <Add isOpen={isModalOpen1} onCancel={handleCancel1} />
-            <Delete isOpen={isModalOpen2} onCancel={handleCancel2} />
+            <Add isOpen={isModalOpen1} onCancel={handleCancel1} nameType="horse"/>
+            <Delete isOpen={isModalOpen2} onCancel={handleCancel2} nameType="horse"/>
             <div className={j.sort}>
                 Сортировать по
                 <div className={j.option}>
