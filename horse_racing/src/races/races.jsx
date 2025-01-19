@@ -29,7 +29,7 @@ const Main = () => {
     }
 
     useEffect(() => {
-        
+
         const fetchRaces = async () => {
             let url = 'http://localhost:1337/api/races?';
             if (optionHorse || optionDate || optionJockey || optionRacetrack) {
@@ -56,13 +56,15 @@ const Main = () => {
             console.log(optionJockey);
             const res = await fetch(url, {
                 method: "GET",
-                headers: { "Accept": "application/json", "Content-Type":
-                "application/json" }
+                headers: {
+                    "Accept": "application/json", "Content-Type":
+                        "application/json"
+                }
             });
             if (res.ok) {
                 const data = await res.json()
                 setRaces(data);
-                
+
             }
         };
         const fetchRacetracks = async () => {
@@ -104,7 +106,7 @@ const Main = () => {
         <main className={m.main}>
 
             <div className={m.filters}>
-            <div className={m.option}>
+                <div className={m.option}>
                     <div>Ипподром</div>
                     <select className={m.date} value={optionRacetrack} onChange={handleOptionChangeRacetrack}>
                         <option value={""}>Все</option>
@@ -126,17 +128,17 @@ const Main = () => {
                 <div className={m.option}>
                     <div>Жокей</div>
                     <select className={m.date} value={optionJockey} onChange={handleOptionChangeJockey}>
-                    <option value={""}>Все</option>
+                        <option value={""}>Все</option>
                         {jockeys.map(h => <option key={h.jockey_id} value={h.jockey_name}>{h.jockey_name}</option>)}
                     </select>
                 </div>
             </div>
             <div className={m.num_races}>Количество заездов: {races.length}</div>
             <div className={m.items}>
-                
+
                 {races.map((race) => (
-                    
-                    <Race race_id={race['race_id']} race_name={race['name']} date={race['date']}/>
+
+                    <Race race_id={race['race_id']} race_name={race['name']} date={race['date']} />
                 )
                     /*
                     <Race race_id={race.race_id} race={race.name} horses={[race.horse_name]} jockey={[race.jockey_name]} time={[race.time]}/>

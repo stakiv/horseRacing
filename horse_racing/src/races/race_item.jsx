@@ -43,7 +43,7 @@ const Race = (props) => {
                 </thead>
                 <tbody>
                 {races.map((i, index) =>
-                    <tr className={r.row}>
+                    <tr key={index} className={r.row}>
                         <td className={r.data}>{index + 1}</td>
                         <td className={r.data}>{i['horse_name']}</td>
                         <td className={r.data}>{i['jockey_name']}</td>
