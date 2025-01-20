@@ -92,7 +92,7 @@ const Main = () => {
                         </tr>
 
                         {horses.map((i, index) =>
-                            <tr className={j.row}>
+                            <tr className={j.row} key={index}>
                                 <td className={j.data}>{index + 1}</td>
                                 <td className={j.data}>{i['horse_id']}</td>
                                 <td className={j.data}>{i['horse_name']}</td>
