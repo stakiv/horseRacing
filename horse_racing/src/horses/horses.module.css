@@ -3,16 +3,19 @@
     text-align: center;
     justify-content: center;
 }
+
 .buttons {
     display: flex;
     flex-direction: row;
     column-gap: 30px;
 }
+
 .add {
     margin-left: 0;
     width: fit-content;
     height: fit-content;
 }
+
 .add_button {
     width: 40px;
     height: 40px;
@@ -24,6 +27,7 @@
     margin-left: 0;
     cursor: pointer;
 }
+
 .delete_button {
     width: 40px;
     height: 40px;
@@ -35,21 +39,21 @@
     margin-left: 0;
     cursor: pointer;
 }
+
 .sort {
     margin-top: 30px;
     padding: 0 20px;
     display: flex;
     flex-wrap: wrap;
-    
-    justify-content: left; 
+    justify-content: left;
     column-gap: 2em;
     border: 2em;
     background-color: #B19580;
     line-height: 3rem;
     border-radius: 1em;
     /*position: fixed;*/
-    
 }
+
 .date {
     padding: 7px 13px;
     border-radius: 10px;
@@ -57,25 +61,32 @@
     cursor: pointer;
     background-color: #FFF;
 }
+
 .items {
     text-align: center;
     justify-content: center;
     margin: auto;
 }
+
 .marge {
     text-align: center;
     justify-content: center;
     margin: auto;
 }
+
 .item {
+    border-spacing: 0;
     border: 2px #5C3D26 solid;
     margin-top: 2rem;
-    padding: 15px 10px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
     border-radius: 1em;
     background-color: #FFF;
-    width: 100%;
+    width: auto;
     overflow: hidden;
 }
+
 .row {
     border: none;
 }
@@ -84,11 +95,10 @@
     padding: 12px 25px;
     text-align: left;
     border: none;
-    border-bottom: #5C3D26 solid 1px;
 }
+
 .row:nth-child(even) {
-    background-color: #f9f9f9;
-    
+    background-color: #ececec;
 }
 
 .row:last-child .data {

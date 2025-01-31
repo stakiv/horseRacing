@@ -28,21 +28,15 @@ const Tabs = () => {
         <div>
             <ul className={t.tabs}>
                 <div className={`${t.option} ${activeTab === "races" ? t.active : ""}`} onClick={() => handleTabClick("races")}>
-                    <li //className={activeTab === "races" ? "active" : ""}
-                        //onClick={handleRaces}
-                        style={{ listStyle: "none", cursor: 'pointer' }}>Заезды</li>
+                    <li style={{ listStyle: "none", cursor: 'pointer' }}>Заезды</li>
                 </div>
                 <div className={`${t.option} ${activeTab === "horses" ? t.active : ""}`}
                     onClick={() => handleTabClick("horses")}>
-                    <li //className={activeTab === "horses" ? "active" : ""}
-                        //onClick={handleHorses}
-                        style={{ listStyle: "none", cursor: 'pointer' }}>Лошади</li>
+                    <li style={{ listStyle: "none", cursor: 'pointer' }}>Лошади</li>
                 </div>
                 <div className={`${t.option} ${activeTab === "jockeys" ? t.active : ""}`}
                     onClick={() => handleTabClick("jockeys")}>
-                    <li //className={activeTab === "jockeys" ? "active" : ""}
-                        //onClick={handleJockeys}
-                        style={{ listStyle: "none", cursor: 'pointer' }}>Жокеи</li>
+                    <li style={{ listStyle: "none", cursor: 'pointer' }}>Жокеи</li>
                 </div>
             </ul>
             <div className={t.outlet}>
