@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import j from './horses.module.css'
-import Add from './add_horse'
-import Delete from './delete_horse'
+import Add from '../forms/add_form'
+import Delete from '../forms/delete_form'
 
 
 const Main = () => {
@@ -52,6 +52,7 @@ const Main = () => {
 
     const addNewHorse = () => {
         setIsModalOpen1(true);
+        console.log("Adding new horse");
     }
     const deleteHorse = () => {
         setIsModalOpen2(true);

@@ -24,19 +24,19 @@ app.use((req, res, next) => {
     next()
 });
 
-exports.delete_horse = app.delete("", async (req, res) => {
+exports.delete_jockey = app.delete("", async (req, res) => {
     try {
-        const horse = req.query.horse;
-        console.log(horse);
+        const jockey = req.query.jockey;
+        console.log(jockey);
 
-        const Horse = await pool.query(
-            `DELETE FROM horses WHERE horse_id = ${horse}`
+        const Jockey = await pool.query(
+            `DELETE FROM jockeys WHERE jockey_id = ${jockey}`
         )
-        res.status(200).json({ message: "Лошадь удалена", data: Horse.rows });
+        res.status(200).json({ message: "Жокей удален", data: Jockey.rows });
         //res.json(Horse["rows"]);
     }
     catch (err) {
-        console.error("ошибка при удалении лошади", err);
+        console.error("ошибка при удалении жокея", err);
         res.status(400);
     }
 });

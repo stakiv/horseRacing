@@ -67,7 +67,7 @@ const Delete = ({ isOpen, onCancel }) => {
         //event.preventDefault();
         console.log(formData.horse);
         if (!formData.horse || formData.horse == '') {
-            console.log('выбкрите тошадь');
+            console.log('выберите лошадь');
             return;
         }
         const horseid = formData.horse;

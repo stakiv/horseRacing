@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import j from './jockeys.module.css';
-import Add from '../horses/add_horse';
-import Delete from '../horses/delete_horse';
+import Add from '../forms/add_form';
+import Delete from '../forms/delete_form';
 
 const Main = () => {
 
@@ -45,6 +45,7 @@ const Main = () => {
     const handleCancel1 = () => {
         setIsModalOpen1(false);
     }
+    
     const handleCancel2 = () => {
         setIsModalOpen2(false);
     }

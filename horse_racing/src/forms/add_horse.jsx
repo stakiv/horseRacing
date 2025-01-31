@@ -1,11 +1,11 @@
 import ah from './add_horse.module.css'
 import { useEffect, useState } from 'react';
 
-const Add = ({ isOpen, onCancel }, props) => {
+const Add = ({ isOpen, onCancel , nameType}) => {
 
-    const nameType = props.nameType;
+    //const nameType = props.nameType;
     console.log(nameType)
-
+    
     const [owners, setOwners] = useState([]);
     const [horses, setHorses] = useState([]);
     const [suits, setSuits] = useState([]);

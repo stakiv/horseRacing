@@ -4,7 +4,44 @@
     justify-content: center;
 }
 
+.buttons {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+}
+
+.add {
+    margin-left: 0;
+    width: fit-content;
+    height: fit-content;
+}
+
+.add_button {
+    width: 40px;
+    height: 40px;
+    background-image: url(../img/add-button.png);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-color: transparent;
+    border: none;
+    margin-left: 0;
+    cursor: pointer;
+}
+
+.delete_button {
+    width: 40px;
+    height: 40px;
+    background-image: url(../img/delete-button.png);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    background-color: transparent;
+    border: none;
+    margin-left: 0;
+    cursor: pointer;
+}
+
 .sort {
+    margin-top: 30px;
     padding: 0 20px;
     display: flex;
     flex-wrap: wrap;

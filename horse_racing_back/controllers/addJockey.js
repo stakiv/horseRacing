@@ -12,6 +12,10 @@ const pool = new Pool({
 });
 const app = express();
 app.use((req, res, next) => {
+    /*
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    headers: ['Content-Type', 'Authorization']*/
     
     const origin = req.headers.origin;
     const allowedOrigins = ['http://localhost:3000'];
@@ -24,19 +28,22 @@ app.use((req, res, next) => {
     next()
 });
 
-exports.delete_horse = app.delete("", async (req, res) => {
+exports.add_jockey = app.post("", async (req, res) => {
     try {
-        const horse = req.query.horse;
-        console.log(horse);
+        const { jockey, age } = req.body;
 
-        const Horse = await pool.query(
-            `DELETE FROM horses WHERE horse_id = ${horse}`
+        console.log(jockey);
+        console.log(age);
+
+        const Jockey = await pool.query(
+            `INSERT INTO jockeys (jockey_name, jockey_age) VALUES ('${jockey}', ${age})`
         )
-        res.status(200).json({ message: "Лошадь удалена", data: Horse.rows });
+        res.status(200).json({ message: "Жокей добавлен", data: Jockey.rows });
         //res.json(Horse["rows"]);
     }
     catch (err) {
-        console.error("ошибка при удалении лошади", err);
+        console.error("ошибка при добавлении жокея", err);
         res.status(400);
+        //res.status(500).json({ message: "Произошла ошибка при добавлении лошади" });
     }
 });
